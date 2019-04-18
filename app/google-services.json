@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "486257917892",
+    "firebase_url": "https://band-up-98432.firebaseio.com",
+    "project_id": "band-up-98432",
+    "storage_bucket": "band-up-98432.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486257917892:android:d06c909be8dd3a0a",
+        "android_client_info": {
+          "package_name": "com.example.bandup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486257917892-inh2rt4osaoiejukabpo4qb8u2monut5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bandup",
+            "certificate_hash": "638954e27d41fc69010c4676e5aa940d5ccd1075"
+          }
+        },
+        {
+          "client_id": "486257917892-hg9hjvga751jf9n7nhs5voj571htat65.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bandup",
+            "certificate_hash": "a40e9f72147e2a7b37c8fb5fe97fad96b946926b"
+          }
+        },
+        {
+          "client_id": "486257917892-b6i86ebspo74jcs1asl6m3bo37v7a0rv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDR6Ekbhs1h5VzX8L9Pq95emhTZUtpZjIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486257917892-b6i86ebspo74jcs1asl6m3bo37v7a0rv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
