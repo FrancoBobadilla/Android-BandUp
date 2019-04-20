@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Band up!</string>
+    <string name="facebook_app_id">393281867925321</string> <string name="fb_login_protocol_scheme">fb393281867925321</string>
 </resources>

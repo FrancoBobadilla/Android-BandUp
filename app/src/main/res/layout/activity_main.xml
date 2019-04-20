@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textEmail" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/emailLoginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -85,7 +85,7 @@
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/emailLoginButton"
         app:srcCompat="@drawable/google_login" />
 
     <ImageButton
@@ -97,8 +97,16 @@
         android:backgroundTint="#00FFFFFF"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/emailLoginButton"
         app:srcCompat="@drawable/facebook_login" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailLoginButton" />
 
     <TextView
         android:id="@+id/textView"
