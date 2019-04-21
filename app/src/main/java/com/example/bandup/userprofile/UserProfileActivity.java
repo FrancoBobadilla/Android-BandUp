@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.bandup.LoginActivity;
 import com.example.bandup.MainActivity;
 import com.example.bandup.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -121,9 +122,9 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //SIGN OUT
                 mAuth.signOut();
-                Intent moveToMain = new Intent(UserProfileActivity.this, MainActivity.class);
-                moveToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
-                startActivity(moveToMain);
+                Intent moveToLogin = new Intent(UserProfileActivity.this, LoginActivity.class);
+                moveToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
+                startActivity(moveToLogin);
             }
         });
 
