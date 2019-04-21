@@ -133,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
-                    Toast.makeText(MainActivity.this, "Login Exitoso con facebook, Bienvenido", Toast.LENGTH_LONG).show();
                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
                     //updateUI(user); lo envia a su perfil
