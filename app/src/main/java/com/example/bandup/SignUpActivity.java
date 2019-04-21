@@ -84,6 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
                             //updateUI(user);
                             Intent moveToProfile = new Intent(SignUpActivity.this, UserProfileActivity.class);
                             moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
+                            finish();
                             startActivity(moveToProfile);
                         } else {
                             //Si ya existe el usuario

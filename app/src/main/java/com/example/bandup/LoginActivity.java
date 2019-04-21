@@ -175,6 +175,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (firebaseUser != null) {
             Intent moveToProfile = new Intent(LoginActivity.this, UserProfileActivity.class);
             moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
+            finish();
             startActivity(moveToProfile);
         } else {
             //TODO: administrar error de inicio de sesión

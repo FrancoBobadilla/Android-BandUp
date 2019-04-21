@@ -125,6 +125,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 mAuth.signOut();
                 Intent moveToLogin = new Intent(UserProfileActivity.this, LoginActivity.class);
                 moveToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
+                finish();
                 startActivity(moveToLogin);
             }
         });

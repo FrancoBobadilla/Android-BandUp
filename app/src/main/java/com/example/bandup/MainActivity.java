@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.bandup.userprofile.UserProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             Toast.makeText(MainActivity.this, "Sí hay un usuario Firebase", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));  //debería ir a otra actividad enrealidad
+            finish();
+            startActivity(new Intent(MainActivity.this, UserProfileActivity.class));  //esta logueado, va a su perfil
         } else {
             Toast.makeText(MainActivity.this, "No hay un usuario Firebase", Toast.LENGTH_LONG).show();
+            finish();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
     }
