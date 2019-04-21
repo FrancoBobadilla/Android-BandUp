@@ -162,15 +162,18 @@ public class UserProfileActivity extends AppCompatActivity {
 
         for(DataSnapshot ds : dataSnapshot.getChildren()) {
             UserInformation uInfo = new UserInformation();
-            uInfo.setUsername(ds.child(UserID).getValue(UserInformation.class).getUsername());
-            uInfo.setImageurl(ds.child(UserID).getValue(UserInformation.class).getImageurl());
-
-            username = uInfo.getUsername();
-            imageurl = uInfo.getImageurl();
+            if(ds.child(UserID).getValue() != null){
+                uInfo.setUsername(ds.child(UserID).getValue(UserInformation.class).getUsername());
+                uInfo.setImageurl(ds.child(UserID).getValue(UserInformation.class).getImageurl());
+                username = uInfo.getUsername();
+                imageurl = uInfo.getImageurl();
+            }
         }
 
-        textUserName.setText(username);
-        Picasso.get().load(imageurl).into(imageUserProfile);
+        if(username != null && imageurl != null){
+            textUserName.setText(username);
+            Picasso.get().load(imageurl).into(imageUserProfile);
+        }
     }
 
     private void profilePicSelection() {
