@@ -1,6 +1,7 @@
 package com.example.bandup;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.bandup.userprofile.UserProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -17,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
@@ -42,7 +44,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         progressDialog = new ProgressDialog(this);
 
         //listener del boton
-        buttonSignUp.setOnClickListener(this);
+        buttonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAcount();
+            }
+        });
     }
 
     private void createAcount(){
@@ -72,7 +79,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(SignUpActivity.this, "Se ha registrado el usuario ", Toast.LENGTH_LONG).show();
                             FirebaseUser user = mAuth.getCurrentUser();
+
                             //updateUI(user);
+                            Intent moveToProfile = new Intent(SignUpActivity.this, UserProfileActivity.class);
+                            moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
+                            startActivity(moveToProfile);
                         } else {
                             //Si ya existe el usuario
                             if(task.getException() instanceof FirebaseAuthUserCollisionException){
@@ -88,9 +99,4 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 });
     }
 
-    @Override
-    public void onClick(View v) {
-        //se invoca el metodo
-        createAcount();
-    }
 }

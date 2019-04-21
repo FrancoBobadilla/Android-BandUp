@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bandup.userprofile.UserProfileActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -26,23 +27,28 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
     private CallbackManager callbackManager;
+
+    //declaracion de vistas del layout
     private Button emailLoginButton;
     private TextView signUp;
     private EditText textEmail;
     private EditText textPassword;
-    private ProgressDialog progressDialog;
     private LoginButton loginButton;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //firebase instances
         firebaseAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
 
@@ -64,7 +70,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog = new ProgressDialog(this);
 
         //listener del boton login
-        emailLoginButton.setOnClickListener(this);
+        emailLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
+            }
+        });
 
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -89,6 +100,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 FirebaseUser user = MainActivity.this.firebaseAuth.getCurrentUser();
                 if (AccessToken.getCurrentAccessToken() != null) {
                     Toast.makeText(MainActivity.this, AccessToken.getCurrentAccessToken().getExpires().toString(), Toast.LENGTH_SHORT).show();
+                }
+                //NOSE SI ES LA MISMA CONDICION Q ARRIBA PERO ESTO VERIFICA SI HAY O NO UN USUARIO LOGUEADO
+                if( user != null) {
+                    //enviar a perfil porq esta logueado ya
+                    Intent moveToProfile = new Intent(MainActivity.this, UserProfileActivity.class);
+                    moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
+                    startActivity(moveToProfile);
                 }
             }
         };
@@ -117,7 +135,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // Sign in success, update UI with the signed-in user's information
                     Toast.makeText(MainActivity.this, "Login Exitoso con facebook, Bienvenido", Toast.LENGTH_LONG).show();
                     FirebaseUser user = firebaseAuth.getCurrentUser();
-                    //updateUI(user);
+
+                    //updateUI(user); lo envia a su perfil
+                    Intent moveToProfile = new Intent(MainActivity.this, UserProfileActivity.class);
+                    moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
+                    startActivity(moveToProfile);
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(MainActivity.this, "Hubo un error en el login", Toast.LENGTH_LONG).show();
@@ -155,7 +177,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(MainActivity.this, "Login Exitoso, Bienvenido", Toast.LENGTH_LONG).show();
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            //updateUI(user);
+
+                            //updateUI(user);   se manda al usuario a su perfil (por ahora)
+                            Intent moveToProfile = new Intent(MainActivity.this, UserProfileActivity.class);
+                            moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
+                            startActivity(moveToProfile);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(MainActivity.this, "Hubo un error en el login", Toast.LENGTH_LONG).show();
@@ -171,11 +197,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    public void onClick(View v) {
-        signIn();
-    }
-
 
 }
