@@ -35,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
 
         //Referenciar los views
         textEmail = (EditText) findViewById(R.id.textEmail);

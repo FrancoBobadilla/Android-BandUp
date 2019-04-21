@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         emailLoginButton = (Button) findViewById(R.id.emailLoginButton);
         signUp = (TextView) findViewById(R.id.buttonRegister);
         mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
         callbackManager = CallbackManager.Factory.create();
         progressDialog = new ProgressDialog(this);
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder().requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();

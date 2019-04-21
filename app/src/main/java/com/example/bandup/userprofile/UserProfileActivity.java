@@ -117,6 +117,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 saveUserProfile();
             }
         });
+
         buttonSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
