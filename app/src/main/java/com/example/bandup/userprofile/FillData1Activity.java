@@ -165,9 +165,9 @@ public class FillData1Activity extends AppCompatActivity {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             UserModel uInfo = new UserModel();
             if (ds.child(UserID).getValue() != null) {
-                uInfo.setUsername(ds.child(UserID).getValue(UserModel.class).getUsername());
+                uInfo.setName(ds.child(UserID).getValue(UserModel.class).getName());
                 uInfo.setImageUrl(ds.child(UserID).getValue(UserModel.class).getImageUrl());
-                username = uInfo.getUsername();
+                username = uInfo.getName();
                 imageurl = uInfo.getImageUrl();
             }
         }
