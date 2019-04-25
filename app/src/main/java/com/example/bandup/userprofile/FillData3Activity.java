@@ -1,5 +1,6 @@
 package com.example.bandup.userprofile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,8 @@ public class FillData3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_data_3);
 
+        Intent i = getIntent();
+        user = (UserModel)i.getSerializableExtra("user");
         musicalInstrumentsRef = FirebaseDatabase.getInstance().getReference().child("resources").child("musicalInstruments");
 
         musicalInstrumentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
