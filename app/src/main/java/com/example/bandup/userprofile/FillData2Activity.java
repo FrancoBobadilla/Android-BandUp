@@ -1,6 +1,7 @@
 package com.example.bandup.userprofile;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +16,15 @@ import com.google.firebase.database.ValueEventListener;
 public class FillData2Activity extends AppCompatActivity {
 
     private DatabaseReference musicalGenresRef;
+    private UserModel user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_data_2);
+
+        Intent i = getIntent();
+        user = (UserModel)i.getSerializableExtra("user");
 
         musicalGenresRef = FirebaseDatabase.getInstance().getReference().child("resources").child("musicalGenres");
 

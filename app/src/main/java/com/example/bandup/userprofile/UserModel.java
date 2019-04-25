@@ -9,7 +9,7 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class UserModel implements Serializable {
 
-    private Uri imageUri;
+    private String imageUri;
     private String userName;
     private String firstName;
     private String lastName;
@@ -64,11 +64,11 @@ public class UserModel implements Serializable {
     }
 
     public Uri getImageUri() {
-        return imageUri;
+        return Uri.parse(imageUri);
     }
 
     public void setImageUri(Uri imageUri) {
-        this.imageUri = imageUri;
+        this.imageUri = imageUri.toString();
     }
 
     public String getUserName() {
@@ -94,4 +94,5 @@ public class UserModel implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
 }

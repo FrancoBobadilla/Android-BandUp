@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 public class FillData3Activity extends AppCompatActivity {
 
     private DatabaseReference musicalInstrumentsRef;
+    private UserModel user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
