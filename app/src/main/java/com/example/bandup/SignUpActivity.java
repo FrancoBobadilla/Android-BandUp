@@ -53,17 +53,17 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void createAcount(){
+    private void createAcount() {
         //obtener email y password
         String email = textEmail.getText().toString().trim();
         String password = textPassword.getText().toString().trim();
 
         //verificar que no esten vacias
-        if(TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Se debe ingresar un email ", Toast.LENGTH_LONG).show();
             return;
         }
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Se debe ingresar un password ", Toast.LENGTH_LONG).show();
             return;
         }
@@ -88,9 +88,9 @@ public class SignUpActivity extends AppCompatActivity {
                             startActivity(moveToProfile);
                         } else {
                             //Si ya existe el usuario
-                            if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 Toast.makeText(SignUpActivity.this, "El usuario ya existe", Toast.LENGTH_LONG).show();
-                            }else {
+                            } else {
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(SignUpActivity.this, "No se pudo registrar el usuario ", Toast.LENGTH_LONG).show();
                                 //updateUI(null);

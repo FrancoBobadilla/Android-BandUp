@@ -72,7 +72,7 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if( user != null ) {
+                if (user != null) {
                     //signed in
                     Toast.makeText(UserProfileActivity.this, "Signed in", Toast.LENGTH_LONG).show();
                 } else {
@@ -98,6 +98,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 loadUserInfo(dataSnapshot);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -162,9 +163,9 @@ public class UserProfileActivity extends AppCompatActivity {
         String username = null;
         String imageurl = null;
 
-        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
             UserInformation uInfo = new UserInformation();
-            if(ds.child(UserID).getValue() != null){
+            if (ds.child(UserID).getValue() != null) {
                 uInfo.setUsername(ds.child(UserID).getValue(UserInformation.class).getUsername());
                 uInfo.setImageurl(ds.child(UserID).getValue(UserInformation.class).getImageurl());
                 username = uInfo.getUsername();
@@ -172,7 +173,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         }
 
-        if(username != null && imageurl != null){
+        if (username != null && imageurl != null) {
             textUserName.setText(username);
             Picasso.get().load(imageurl).into(imageUserProfile);
         }
@@ -182,10 +183,11 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imageHoldUri = data.getData();
             imageUserProfile.setImageURI(imageHoldUri);
         }
@@ -198,8 +200,8 @@ public class UserProfileActivity extends AppCompatActivity {
         //Se obtienen los datos de los campos ingresados
         userName = textUserName.getText().toString().trim();
 
-        if(!TextUtils.isEmpty(userName)){
-            if(imageHoldUri != null){
+        if (!TextUtils.isEmpty(userName)) {
+            if (imageHoldUri != null) {
 
                 mProgress.setTitle("Saving");
                 mProgress.setMessage("Please Wait...");
@@ -227,10 +229,10 @@ public class UserProfileActivity extends AppCompatActivity {
                         mProgress.dismiss();
                     }
                 });
-            }else{
+            } else {
                 Toast.makeText(UserProfileActivity.this, "Seleccione una foto de perfil", Toast.LENGTH_LONG).show();
             }
-        }else{
+        } else {
             Toast.makeText(UserProfileActivity.this, "Ingrese nombre de usuario", Toast.LENGTH_LONG).show();
         }
     }

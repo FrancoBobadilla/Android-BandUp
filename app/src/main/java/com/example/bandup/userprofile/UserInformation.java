@@ -6,7 +6,7 @@ public class UserInformation {
     private String userid;
     private String username;
 
-    public UserInformation(){
+    public UserInformation() {
 
     }
 
