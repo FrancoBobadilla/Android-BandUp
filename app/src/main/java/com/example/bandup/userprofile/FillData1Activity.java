@@ -166,9 +166,9 @@ public class FillData1Activity extends AppCompatActivity {
             UserModel uInfo = new UserModel();
             if (ds.child(UserID).getValue() != null) {
                 uInfo.setUsername(ds.child(UserID).getValue(UserModel.class).getUsername());
-                uInfo.setImageurl(ds.child(UserID).getValue(UserModel.class).getImageurl());
+                uInfo.setImageUrl(ds.child(UserID).getValue(UserModel.class).getImageUrl());
                 username = uInfo.getUsername();
-                imageurl = uInfo.getImageurl();
+                imageurl = uInfo.getImageUrl();
             }
         }
 
