@@ -13,9 +13,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FillData3Activity extends AppCompatActivity {
 
-    //base de datos
-    private DatabaseReference myRef;
-    private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference musicalInstrumentsRef;
 
     @Override
@@ -23,9 +20,7 @@ public class FillData3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_data_3);
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
-        musicalInstrumentsRef = myRef.child("resources").child("musicalInstruments");
+        musicalInstrumentsRef = FirebaseDatabase.getInstance().getReference().child("resources").child("musicalInstruments");
 
         musicalInstrumentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

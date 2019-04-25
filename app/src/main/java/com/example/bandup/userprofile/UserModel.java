@@ -1,5 +1,7 @@
 package com.example.bandup.userprofile;
 
+import android.net.Uri;
+
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
@@ -7,8 +9,10 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class UserModel implements Serializable {
 
-    private String imageUrl;
-    private String name;
+    private Uri imageUri;
+    private String userName;
+    private String firstName;
+    private String lastName;
     private Integer age;
     private String gender;
     private FirebaseUser firebaseUser;
@@ -59,19 +63,35 @@ public class UserModel implements Serializable {
         this.gender = gender;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public Uri getImageUri() {
+        return imageUri;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Band up!</string>
-    <string name="facebook_app_id">393281867925321</string> <string name="fb_login_protocol_scheme">fb393281867925321</string>
-    <string name="login_with_google">Continue with Google</string>
-    <string name="register_here">registrate aquí</string>
-    <string name="not_account">¿No tienes una cuenta?</string>
-    <string name="login">Ingresar</string>
-    <string name="password">Password</string>
-    <string name="email">Email</string>
-    <string name="band_up">Band Up!</string>
-    <string name="microphone">microphone</string>
+    <string userName="app_name">Band up!</string>
+    <string userName="facebook_app_id">393281867925321</string> <string userName="fb_login_protocol_scheme">fb393281867925321</string>
+    <string userName="login_with_google">Continue with Google</string>
+    <string userName="register_here">registrate aquí</string>
+    <string userName="not_account">¿No tienes una cuenta?</string>
+    <string userName="login">Ingresar</string>
+    <string userName="password">Password</string>
+    <string userName="email">Email</string>
+    <string userName="band_up">Band Up!</string>
+    <string userName="microphone">microphone</string>
 </resources>
