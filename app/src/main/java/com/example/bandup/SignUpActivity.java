@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.bandup.userprofile.UserProfileActivity;
+import com.example.bandup.userprofile.FillData1Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -82,7 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             //updateUI(user);
-                            Intent moveToProfile = new Intent(SignUpActivity.this, UserProfileActivity.class);
+                            Intent moveToProfile = new Intent(SignUpActivity.this, FillData1Activity.class);
                             moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
                             finish();
                             startActivity(moveToProfile);

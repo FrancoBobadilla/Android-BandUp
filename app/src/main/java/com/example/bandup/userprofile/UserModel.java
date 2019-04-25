@@ -1,12 +1,15 @@
 package com.example.bandup.userprofile;
 
-public class UserInformation {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class UserModel implements Serializable {
 
     private String imageurl;
     private String userid;
     private String username;
 
-    public UserInformation() {
+    public UserModel() {
 
     }
 

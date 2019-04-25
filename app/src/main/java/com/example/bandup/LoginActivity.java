@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bandup.userprofile.UserProfileActivity;
+import com.example.bandup.userprofile.FillData1Activity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -173,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void updateUI(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
-            Intent moveToProfile = new Intent(LoginActivity.this, UserProfileActivity.class);
+            Intent moveToProfile = new Intent(LoginActivity.this, FillData1Activity.class);
             moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
             finish();
             startActivity(moveToProfile);

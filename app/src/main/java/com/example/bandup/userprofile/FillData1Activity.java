@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.bandup.LoginActivity;
-import com.example.bandup.MainActivity;
 import com.example.bandup.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +29,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class FillData1Activity extends AppCompatActivity {
 
     //constante, request code para abrir galeria
     private static final int PICK_IMAGE = 100;
@@ -63,7 +62,7 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_fill_data_1);
 
         //instancias de firebase
         mAuth = FirebaseAuth.getInstance();
@@ -74,10 +73,10 @@ public class UserProfileActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     //signed in
-                    Toast.makeText(UserProfileActivity.this, "Signed in", Toast.LENGTH_LONG).show();
+                    Toast.makeText(FillData1Activity.this, "Signed in", Toast.LENGTH_LONG).show();
                 } else {
                     //signed out
-                    Toast.makeText(UserProfileActivity.this, "Signed out", Toast.LENGTH_LONG).show();
+                    Toast.makeText(FillData1Activity.this, "Signed out", Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -124,7 +123,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //SIGN OUT
                 mAuth.signOut();
-                Intent moveToLogin = new Intent(UserProfileActivity.this, LoginActivity.class);
+                Intent moveToLogin = new Intent(FillData1Activity.this, LoginActivity.class);
                 moveToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //esto evita q vuelva al login si vuelve atras
                 finish();
                 startActivity(moveToLogin);
@@ -164,10 +163,10 @@ public class UserProfileActivity extends AppCompatActivity {
         String imageurl = null;
 
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-            UserInformation uInfo = new UserInformation();
+            UserModel uInfo = new UserModel();
             if (ds.child(UserID).getValue() != null) {
-                uInfo.setUsername(ds.child(UserID).getValue(UserInformation.class).getUsername());
-                uInfo.setImageurl(ds.child(UserID).getValue(UserInformation.class).getImageurl());
+                uInfo.setUsername(ds.child(UserID).getValue(UserModel.class).getUsername());
+                uInfo.setImageurl(ds.child(UserID).getValue(UserModel.class).getImageurl());
                 username = uInfo.getUsername();
                 imageurl = uInfo.getImageurl();
             }
@@ -230,10 +229,10 @@ public class UserProfileActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                Toast.makeText(UserProfileActivity.this, "Seleccione una foto de perfil", Toast.LENGTH_LONG).show();
+                Toast.makeText(FillData1Activity.this, "Seleccione una foto de perfil", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(UserProfileActivity.this, "Ingrese nombre de usuario", Toast.LENGTH_LONG).show();
+            Toast.makeText(FillData1Activity.this, "Ingrese nombre de usuario", Toast.LENGTH_LONG).show();
         }
     }
 }
