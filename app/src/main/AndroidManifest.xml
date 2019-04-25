@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bandup">
 
-    <uses-permission android:userName="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,10 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:userName=".LoginActivity"></activity>
-        <activity android:userName=".userprofile.FillData1Activity"></activity>
-        <activity android:userName=".userprofile.FillData2Activity"></activity>
-        <activity android:userName=".userprofile.FillData3Activity"></activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".userprofile.FillData1Activity"></activity>
+        <activity android:name=".userprofile.FillData2Activity"></activity>
+        <activity android:name=".userprofile.FillData3Activity"></activity>
         <meta-data
             android:userName="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" /> <!-- <activity android:userName="com.facebook.FacebookActivity" android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" /> -->
@@ -26,8 +26,8 @@
         <!-- <data android:scheme="@string/fb_login_protocol_scheme" /> -->
         <!-- </intent-filter> -->
         <!-- </activity> -->
-        <activity android:userName=".SignUpActivity" />
-        <activity android:userName=".MainActivity">
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:userName="android.intent.action.MAIN" />
 
