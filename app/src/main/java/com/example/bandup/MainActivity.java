@@ -15,13 +15,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new android.os.Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                firebaseTest();
-            }
-        }, 3000);
-
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//        new android.os.Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                firebaseTest();
+//            }
+//        }, 3000);
     }
 
     public void firebaseTest() {
