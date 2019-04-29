@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 //            public void run() {
 //                firebaseTest();
 //            }
-//        }, 3000);
+//        }, 2000);
     }
 
     public void firebaseTest() {

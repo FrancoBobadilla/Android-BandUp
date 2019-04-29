@@ -32,6 +32,8 @@ public class FillData1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_data_1);
 
+        Intent intent = getIntent();
+        user = (UserModel) intent.getSerializableExtra("user");
         imageUserProfile = (ImageView) findViewById(R.id.imageUserProfile);
         buttonNext = (Button) findViewById(R.id.buttonNextFill2);
         textUserName = (EditText) findViewById(R.id.textUserName);
@@ -39,15 +41,12 @@ public class FillData1Activity extends AppCompatActivity {
         textLastName = (EditText) findViewById(R.id.textLastName);
         textAge = (EditText) findViewById(R.id.textAge);
         imageHoldUri = null;
-        user = new UserModel();
-
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nextActivity();
             }
         });
-
         imageUserProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,30 +73,24 @@ public class FillData1Activity extends AppCompatActivity {
     private void nextActivity() {
         String userName, firstName, lastName, age;
         Integer intAge;
-
-        //Se obtienen los datos de los campos ingresados
         userName = textUserName.getText().toString().trim();
         firstName = textFirstName.getText().toString();
         lastName = textLastName.getText().toString();
         age = textAge.getText().toString();
         intAge = Integer.parseInt(age);
-
         if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(age)) {
             Toast.makeText(FillData1Activity.this, "Porfavor, complete todos los campos antes de continuar", Toast.LENGTH_LONG).show();
             return;
         }
-
         if (imageHoldUri == null) {
             Toast.makeText(FillData1Activity.this, "Porfavor, seleccione una foto de perfil antes de continuar", Toast.LENGTH_LONG).show();
             return;
         }
-
         if (!TextUtils.isEmpty(userName) && imageHoldUri != null) {
             user.setUserName(userName);
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setAge(intAge);
-
             Intent next = new Intent(FillData1Activity.this, FillData2Activity.class);
             next.putExtra("user", user);
             startActivity(next);

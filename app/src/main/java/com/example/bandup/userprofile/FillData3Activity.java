@@ -31,6 +31,7 @@ public class FillData3Activity extends AppCompatActivity {
     private String[] resourceList;
     private ItemsListAdapter myItemsListAdapter;
     private DatabaseReference musicalGenresRef;
+    private DatabaseReference userRef;
     private UserModel user;
     private ProgressDialog progressDialog;
 
@@ -41,10 +42,10 @@ public class FillData3Activity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Cargando géneros musicales");
         progressDialog.show();
-        Intent intent = getIntent();
-        user = (UserModel) intent.getSerializableExtra("user");
+        user = (UserModel) getIntent().getSerializableExtra("user");
         listView = (ListView) findViewById(R.id.listGenres);
         buttonSave = (Button) findViewById(R.id.buttonSave);
+        userRef = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
         musicalGenresRef = FirebaseDatabase.getInstance().getReference().child("resources").child("musicalGenres");
         musicalGenresRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -79,9 +80,10 @@ public class FillData3Activity extends AppCompatActivity {
                 String[] selectedItems = myItemsListAdapter.getSelectedItems();
                 if (selectedItems.length > 0) {
                     user.setMusicalGenres(selectedItems);
-                    Intent moveToProfile = new Intent(FillData3Activity.this, MainActivity.class);
-                    moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(moveToProfile);
+                    userRef.setValue(user);
+//                    Intent moveToProfile = new Intent(FillData3Activity.this, MainActivity.class);
+//                    moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(moveToProfile);
                 } else {
                     Toast.makeText(FillData3Activity.this, "Elija un género musical", Toast.LENGTH_SHORT).show();
                 }

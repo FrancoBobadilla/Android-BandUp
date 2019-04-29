@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/light"
+    android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".userprofile.FillData1Activity">
 
@@ -56,6 +56,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/user_name"
+        android:textColorHint="@color/lightGray"
+        android:textColor="@color/black"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +73,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/first_name"
+        android:textColorHint="@color/lightGray"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textUserName" />
@@ -85,6 +89,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/surname"
+        android:textColorHint="@color/lightGray"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFirstName" />
@@ -99,6 +105,8 @@
         android:ems="10"
         android:inputType="number"
         android:hint="@string/age"
+        android:textColorHint="@color/lightGray"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textLastName" />

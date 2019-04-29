@@ -37,8 +37,7 @@ public class FillData2Activity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Cargando instrumentos");
         progressDialog.show();
-        Intent intent = getIntent();
-        user = (UserModel) intent.getSerializableExtra("user");
+        user = (UserModel) getIntent().getSerializableExtra("user");
         listView = (ListView) findViewById(R.id.listInstruments);
         buttonNextFill3 = (Button) findViewById(R.id.buttonNextFill3);
         musicalInstrumentsRef = FirebaseDatabase.getInstance().getReference().child("resources").child("musicalInstruments");
@@ -75,9 +74,10 @@ public class FillData2Activity extends AppCompatActivity {
                 String[] selectedItems = myItemsListAdapter.getSelectedItems();
                 if (selectedItems.length > 0) {
                     user.setMusicalInstruments(selectedItems);
-                    Intent moveToProfile = new Intent(FillData2Activity.this, FillData3Activity.class);
-                    moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(moveToProfile);
+                    Intent next = new Intent(FillData2Activity.this, FillData3Activity.class);
+                    next.putExtra("user", user);
+                    next.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(next);
                 } else {
                     Toast.makeText(FillData2Activity.this, "Elija un instrumento musical", Toast.LENGTH_SHORT).show();
                 }

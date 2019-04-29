@@ -15,7 +15,7 @@ public class UserModel implements Serializable {
     private String lastName;
     private Integer age;
     private String gender;
-    private FirebaseUser firebaseUser;
+    private String uid;
     private String[] musicalInstruments;
     private String[] musicalGenres;
 
@@ -23,12 +23,12 @@ public class UserModel implements Serializable {
 
     }
 
-    public FirebaseUser getFirebaseUser() {
-        return firebaseUser;
+    public String getUid() {
+        return uid;
     }
 
-    public void setFirebaseUser(FirebaseUser firebaseUser) {
-        this.firebaseUser = firebaseUser;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String[] getMusicalInstruments() {
