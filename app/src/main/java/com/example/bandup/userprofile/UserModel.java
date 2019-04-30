@@ -9,6 +9,7 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class UserModel implements Serializable {
 
+    private String imageUrl;
     private String imageUri;
     private String userName;
     private String firstName;
@@ -23,6 +24,14 @@ public class UserModel implements Serializable {
 
     public UserModel() {
 
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Integer getBirthDay() {

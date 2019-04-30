@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bandup.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.time.Month;
 import java.util.Calendar;
@@ -35,7 +36,7 @@ public class FillData1Activity extends AppCompatActivity {
     private TextView textBirth;
     private Uri imageHoldUri;
     private UserModel user;
-
+    private FirebaseAuth mAuth;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Override
@@ -52,6 +53,7 @@ public class FillData1Activity extends AppCompatActivity {
         textLastName = (EditText) findViewById(R.id.textLastName);
         textBirth = (TextView) findViewById(R.id.textBirth);
         imageHoldUri = null;
+        mAuth = FirebaseAuth.getInstance();
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +128,7 @@ public class FillData1Activity extends AppCompatActivity {
         Integer ageInt = new Integer(age);
         String ageS = ageInt.toString();
 
-        Toast.makeText(FillData1Activity.this, "Edad: " + ageS, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(FillData1Activity.this, "Edad: " + ageS, Toast.LENGTH_SHORT).show();
 
         return ageS;
     }
@@ -148,6 +150,8 @@ public class FillData1Activity extends AppCompatActivity {
             return;
         }
         if (!TextUtils.isEmpty(userName) && imageHoldUri != null) {
+            user.setUid(mAuth.getCurrentUser().getUid());
+            user.setImageUri(imageHoldUri);
             user.setUserName(userName);
             user.setFirstName(firstName);
             user.setLastName(lastName);
