@@ -14,13 +14,39 @@ public class UserModel implements Serializable {
     private String firstName;
     private String lastName;
     private Integer age;
-    private String gender;
+    private Integer birthDay;
+    private Integer birthMonth;
+    private Integer birthYear;
     private String uid;
     private String[] musicalInstruments;
     private String[] musicalGenres;
 
     public UserModel() {
 
+    }
+
+    public Integer getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Integer birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public Integer getBirthMonth() {
+        return birthMonth;
+    }
+
+    public void setBirthMonth(Integer birthMonth) {
+        this.birthMonth = birthMonth;
+    }
+
+    public Integer getBirthYear() {
+        return birthYear;
+    }
+
+    public void setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
     }
 
     public String getUid() {
@@ -53,14 +79,6 @@ public class UserModel implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public Uri getImageUri() {
