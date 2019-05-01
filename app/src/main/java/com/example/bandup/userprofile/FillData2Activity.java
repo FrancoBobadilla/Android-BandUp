@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,10 +18,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FillData2Activity extends AppCompatActivity {
+
+    private ImageView imageBack2;
     private Button buttonNextFill3;
     private List<Item> items;
     private ListView listView;
@@ -38,6 +43,7 @@ public class FillData2Activity extends AppCompatActivity {
         progressDialog.setMessage("Cargando instrumentos");
         progressDialog.show();
         user = (UserModel) getIntent().getSerializableExtra("user");
+        imageBack2 = (ImageView) findViewById(R.id.imageBack2);
         listView = (ListView) findViewById(R.id.listInstruments);
         buttonNextFill3 = (Button) findViewById(R.id.buttonNextFill3);
         musicalInstrumentsRef = FirebaseDatabase.getInstance().getReference().child("resources").child("musicalInstruments");
@@ -72,15 +78,23 @@ public class FillData2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String[] selectedItems = myItemsListAdapter.getSelectedItems();
+                List<String> lista = Arrays.asList(selectedItems);
                 if (selectedItems.length > 0) {
-                    user.setMusicalInstruments(selectedItems);
+                    user.setMusicalInstruments(lista);
                     Intent next = new Intent(FillData2Activity.this, FillData3Activity.class);
                     next.putExtra("user", user);
-                    next.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //finish();
+                    //next.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(next);
                 } else {
                     Toast.makeText(FillData2Activity.this, "Elija un instrumento musical", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        imageBack2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

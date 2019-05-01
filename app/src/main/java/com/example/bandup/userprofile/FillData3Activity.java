@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FillData3Activity extends AppCompatActivity {
+
+    private ImageView imageBack3;
     private Button buttonSave;
     private List<Item> items;
     private ListView listView;
@@ -52,6 +55,7 @@ public class FillData3Activity extends AppCompatActivity {
         progressDialog.setMessage("Cargando géneros musicales");
         progressDialog.show();
         user = (UserModel) getIntent().getSerializableExtra("user");
+        imageBack3 = (ImageView) findViewById(R.id.imageBack3);
         listView = (ListView) findViewById(R.id.listGenres);
         buttonSave = (Button) findViewById(R.id.buttonSave);
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
@@ -95,17 +99,21 @@ public class FillData3Activity extends AppCompatActivity {
             }
         });
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        imageBack3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void saveUserProfile() {
         String[] selectedItems = myItemsListAdapter.getSelectedItems();
-        user.setMusicalGenres(selectedItems);
-        //Firebase trabaja con listas, no con arrays
-        final List<String> genresList = Arrays.asList(user.getMusicalGenres());
-        final List<String> instrumentsList = Arrays.asList(user.getMusicalInstruments());
+        List<String> listGenres = Arrays.asList(selectedItems);
+        user.setMusicalGenres(listGenres);
 
-        progressDialog.setTitle("Saving");
-        progressDialog.setMessage("Please Wait...");
+        progressDialog.setTitle("Guardando");
+        progressDialog.setMessage("Porfavor espere mientras se guardan sus datos");
         progressDialog.show();
 
         final StorageReference mChildStorage = mStorageRef.child("User_Profile").child(user.getImageUri().getLastPathSegment());
@@ -126,15 +134,21 @@ public class FillData3Activity extends AppCompatActivity {
                         userRef.child("birthMonth").setValue(user.getBirthMonth());
                         userRef.child("birthYear").setValue(user.getBirthYear());
                         userRef.child("uid").setValue(user.getUid());
-                        userRef.child("musicalGenres").setValue(genresList);
-                        userRef.child("musicalInstruments").setValue(instrumentsList);
+                        userRef.child("musicalGenres").setValue(user.getMusicalGenres());
+                        userRef.child("musicalInstruments").setValue(user.getMusicalInstruments());
+
+                        progressDialog.dismiss();
+
+                        moveToProfile();
                     }
                 });
-                progressDialog.dismiss();
             }
         });
-//                    Intent moveToProfile = new Intent(FillData3Activity.this, MainActivity.class);
-//                    moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(moveToProfile);
+    }
+
+    private void moveToProfile() {
+        Intent moveToProfile = new Intent(FillData3Activity.this, UserProfileActivity.class);
+        moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(moveToProfile);
     }
 }

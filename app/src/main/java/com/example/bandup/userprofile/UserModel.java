@@ -5,6 +5,7 @@ import android.net.Uri;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class UserModel implements Serializable {
@@ -19,8 +20,8 @@ public class UserModel implements Serializable {
     private Integer birthMonth;
     private Integer birthYear;
     private String uid;
-    private String[] musicalInstruments;
-    private String[] musicalGenres;
+    private List<String> musicalInstruments;
+    private List<String> musicalGenres;
 
     public UserModel() {
 
@@ -66,19 +67,19 @@ public class UserModel implements Serializable {
         this.uid = uid;
     }
 
-    public String[] getMusicalInstruments() {
+    public List<String> getMusicalInstruments() {
         return musicalInstruments;
     }
 
-    public void setMusicalInstruments(String[] musicalInstruments) {
+    public void setMusicalInstruments(List<String> musicalInstruments) {
         this.musicalInstruments = musicalInstruments;
     }
 
-    public String[] getMusicalGenres() {
+    public List<String> getMusicalGenres() {
         return musicalGenres;
     }
 
-    public void setMusicalGenres(String[] musicalGenres) {
+    public void setMusicalGenres(List<String> musicalGenres) {
         this.musicalGenres = musicalGenres;
     }
 

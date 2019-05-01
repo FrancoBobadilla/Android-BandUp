@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,9 +19,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bandup.LoginActivity;
 import com.example.bandup.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.Month;
 import java.util.Calendar;
 
@@ -29,6 +40,7 @@ public class FillData1Activity extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
 
     private ImageView imageUserProfile;
+    private ImageView imageBack1;
     private Button buttonNext;
     private EditText textUserName;
     private EditText textFirstName;
@@ -38,15 +50,21 @@ public class FillData1Activity extends AppCompatActivity {
     private UserModel user;
     private FirebaseAuth mAuth;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private DatabaseReference myRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mUserDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_data_1);
 
-        Intent intent = getIntent();
-        user = (UserModel) intent.getSerializableExtra("user");
+        //Para que es esto? este es el primer intent, el objeto no tiene nada
+        //Intent intent = getIntent();
+        //user = (UserModel) intent.getSerializableExtra("user");
+        user = new UserModel();
         imageUserProfile = (ImageView) findViewById(R.id.imageUserProfile);
+        imageBack1 = (ImageView) findViewById(R.id.imageBack1);
         buttonNext = (Button) findViewById(R.id.buttonNextFill2);
         textUserName = (EditText) findViewById(R.id.textUserName);
         textFirstName = (EditText) findViewById(R.id.textFirstName);
@@ -54,6 +72,14 @@ public class FillData1Activity extends AppCompatActivity {
         textBirth = (TextView) findViewById(R.id.textBirth);
         imageHoldUri = null;
         mAuth = FirebaseAuth.getInstance();
+        imageBack1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent back = new Intent(FillData1Activity.this, LoginActivity.class);
+                finish();
+                startActivity(back);
+            }
+        });
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,8 +121,81 @@ public class FillData1Activity extends AppCompatActivity {
                 textBirth.setText(date);
             }
         };
-    }
+/*
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+        mUserDatabase = myRef.child("users").child(mAuth.getCurrentUser().getUid());
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                loadUserInfo(dataSnapshot);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+*/
+    }
+/*
+    //CARGA LA INFORMACION DEL USUARIO
+    //PODRIA HACERSE DE OTRA FORMA?
+    //podria pasarse un objeto con informacion desde la actividad de profile
+    //de todas formas esto no va a cambiar nada para usuarios que se estan registrando
+    //permite editar el perfil
+    private void loadUserInfo(DataSnapshot dataSnapshot) {
+        String UserID = mAuth.getCurrentUser().getUid();
+        String username = null;
+        String firstname = null;
+        String lastname = null;
+        Integer birthday = null;
+        Integer birthmonth = null;
+        Integer birthyear = null;
+        String imageurl = null;
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+            UserModel uInfo = new UserModel();
+            if(ds.child(UserID).getValue() != null){
+                uInfo.setUserName(ds.child(UserID).getValue(UserModel.class).getUserName());
+                uInfo.setImageUrl(ds.child(UserID).getValue(UserModel.class).getImageUrl());
+                uInfo.setFirstName(ds.child(UserID).getValue(UserModel.class).getFirstName());
+                uInfo.setLastName(ds.child(UserID).getValue(UserModel.class).getLastName());
+                uInfo.setBirthDay(ds.child(UserID).getValue(UserModel.class).getBirthDay());
+                uInfo.setBirthMonth(ds.child(UserID).getValue(UserModel.class).getBirthMonth());
+                uInfo.setBirthYear(ds.child(UserID).getValue(UserModel.class).getBirthYear());
+
+                username = uInfo.getUserName();
+                imageurl = uInfo.getImageUrl();
+                firstname = uInfo.getFirstName();
+                lastname = uInfo.getLastName();
+                birthday = uInfo.getBirthDay();
+                birthmonth = uInfo.getBirthMonth();
+                birthyear = uInfo.getBirthYear();
+            }
+        }
+        if(username != null && imageurl != null && firstname != null && lastname != null
+                && birthday != null && birthmonth != null && birthyear != null){
+            Picasso.get().load(imageurl).into(imageUserProfile);
+            textUserName.setText(username);
+            textFirstName.setText(firstname);
+            textLastName.setText(lastname);
+            String date = birthday + "/" + birthmonth + "/" + birthyear;
+            textBirth.setText(date);
+
+            user.setBirthDay(birthday);
+            user.setBirthMonth(birthmonth);
+            user.setBirthYear(birthyear);
+            try{
+                URL url = new URL(imageurl);
+                imageHoldUri = Uri.parse(url.toURI().toString());
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+*/
     private void profilePicSelection() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
@@ -155,9 +254,11 @@ public class FillData1Activity extends AppCompatActivity {
             user.setUserName(userName);
             user.setFirstName(firstName);
             user.setLastName(lastName);
+
             user.setAge(intAge);
             Intent next = new Intent(FillData1Activity.this, FillData2Activity.class);
             next.putExtra("user", user);
+            //finish();
             startActivity(next);
         }
     }

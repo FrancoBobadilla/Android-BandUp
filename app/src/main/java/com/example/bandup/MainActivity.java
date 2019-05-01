@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.bandup.userprofile.FillData1Activity;
+import com.example.bandup.userprofile.UserProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -15,13 +16,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//        new android.os.Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                firebaseTest();
-//            }
-//        }, 2000);
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                firebaseTest();
+            }
+        }, 2000);
     }
 
     public void firebaseTest() {
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         if (firebaseUser != null) {
             Toast.makeText(MainActivity.this, "Sí hay un usuario Firebase", Toast.LENGTH_LONG).show();
             finish();
-            startActivity(new Intent(MainActivity.this, FillData1Activity.class));  //esta logueado, va a su perfil
+            startActivity(new Intent(MainActivity.this, UserProfileActivity.class));  //esta logueado, va a su perfil
         } else {
             Toast.makeText(MainActivity.this, "No hay un usuario Firebase", Toast.LENGTH_LONG).show();
             finish();

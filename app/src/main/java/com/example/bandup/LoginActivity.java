@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             user.setUid(firebaseUser.getUid());
             Intent next = new Intent(LoginActivity.this, FillData1Activity.class);
             next.putExtra("user", user);
-            finish();
+            //finish();
             startActivity(next);
         } else {
             //TODO: administrar error de inicio de sesión
