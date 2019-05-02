@@ -14,14 +14,12 @@ import com.example.bandup.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -36,10 +34,6 @@ public class UserProfileActivity extends AppCompatActivity {
     private Button buttonSignOut;
     private Button buttonEdit;
     private FirebaseAuth mAuth;
-    private DatabaseReference myRef;
-    private FirebaseDatabase mFirebaseDatabase;
-    private StorageReference mStorageRef;
-    private DatabaseReference mUserDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,27 +42,23 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        imageProfilePic = (ImageView) findViewById(R.id.imageProfilePic);
-        textProfileUserName = (TextView) findViewById(R.id.textProfileUserName);
-        textProfileName = (TextView) findViewById(R.id.textProfileName);
-        textProfileLastName = (TextView) findViewById(R.id.textProfileLastName);
-        textProfileBirthDate = (TextView) findViewById(R.id.textProfileBirthDate);
-        textProfileAge = (TextView) findViewById(R.id.textProfileAge);
-        textProfileGenres = (TextView) findViewById(R.id.textProfileGenres);
-        textProfileInstruments = (TextView) findViewById(R.id.textProfileInstruments);
-        buttonSignOut = (Button) findViewById(R.id.buttonSignOut);
-        buttonEdit = (Button) findViewById(R.id.buttonEdit);
+        imageProfilePic = findViewById(R.id.imageProfilePic);
+        textProfileUserName = findViewById(R.id.textProfileUserName);
+        textProfileName = findViewById(R.id.textProfileName);
+        textProfileLastName = findViewById(R.id.textProfileLastName);
+        textProfileBirthDate = findViewById(R.id.textProfileBirthDate);
+        textProfileAge = findViewById(R.id.textProfileAge);
+        textProfileGenres = findViewById(R.id.textProfileGenres);
+        textProfileInstruments = findViewById(R.id.textProfileInstruments);
+        buttonSignOut = findViewById(R.id.buttonSignOut);
+        buttonEdit = findViewById(R.id.buttonEdit);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
-        mUserDatabase = myRef.child("users").child(mAuth.getCurrentUser().getUid());
-
-        myRef.addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 loadUserInfo(dataSnapshot);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -87,15 +77,19 @@ public class UserProfileActivity extends AppCompatActivity {
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserModel user = new UserModel();
+                user.setUid(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
                 Intent moveToFillActivity = new Intent(UserProfileActivity.this, FillData1Activity.class);
                 moveToFillActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                moveToFillActivity.putExtra("user", user);
+                finish();
                 startActivity(moveToFillActivity);
             }
         });
     }
 
     private void loadUserInfo(DataSnapshot dataSnapshot) {
-        String UserID = mAuth.getCurrentUser().getUid();
+        String UserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         String username = null;
         String imageurl = null;
         String firstname = null;
@@ -107,10 +101,10 @@ public class UserProfileActivity extends AppCompatActivity {
         List<String> genres = null;
         List<String> instruments = null;
         String date;
+        UserModel uInfo = new UserModel();
 
-        for(DataSnapshot ds : dataSnapshot.getChildren()) {
-            UserModel uInfo = new UserModel();
-            if(ds.child(UserID).getValue() != null){
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            if (ds.child(UserID).getValue() != null) {
                 uInfo.setUserName(ds.child(UserID).getValue(UserModel.class).getUserName());
                 uInfo.setImageUrl(ds.child(UserID).getValue(UserModel.class).getImageUrl());
                 uInfo.setFirstName(ds.child(UserID).getValue(UserModel.class).getFirstName());
@@ -135,34 +129,97 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         }
         //Hay que ver esta condicion, el problema fue que si un dato es null tira una excepcion al querer cambiar el valor de la vista a null
-        if(username != null && imageurl != null && firstname != null && lastname != null
-                && birthday != null && birthmonth != null && birthyear != null && age != null){
-            String stringAge = Integer.toString(age) + " años";
-            String stringInstruments = "";
-            String stringGenres = "";
-            textProfileUserName.setText(username);
+        if (username != null && imageurl != null && firstname != null && lastname != null
+                && birthday != null && birthmonth != null && birthyear != null && age != null) {
+            String stringAge = age + " años";
+            StringBuilder stringInstruments = new StringBuilder();
+            StringBuilder stringGenres = new StringBuilder();
             Picasso.get().load(imageurl).into(imageProfilePic);
+            textProfileUserName.setText(username);
             textProfileName.setText(firstname);
             textProfileLastName.setText(lastname);
             textProfileAge.setText(stringAge);
             date = birthday + "/" + birthmonth + "/" + birthyear;
             textProfileBirthDate.setText(date);
-            for(String genre : genres){
-                if(genre.equals(genres.get(0))){
-                    stringGenres = genre;
-                }else{
-                    stringGenres = stringGenres + ", " + genre;
+            for (String genre : genres) {
+                if (genre.equals(genres.get(0))) {
+                    stringGenres = new StringBuilder(genre);
+                } else {
+                    stringGenres.append(", ").append(genre);
                 }
             }
-            for(String instrument : instruments){
-                if(instrument.equals(instruments.get(0))){
-                    stringInstruments = instrument;
-                }else{
-                    stringInstruments = stringInstruments + ", " + instrument;
+            for (String instrument : instruments) {
+                if (instrument.equals(instruments.get(0))) {
+                    stringInstruments = new StringBuilder(instrument);
+                } else {
+                    stringInstruments.append(", ").append(instrument);
                 }
             }
-            textProfileGenres.setText(stringGenres);
-            textProfileInstruments.setText(stringInstruments);
+            textProfileGenres.setText(stringGenres.toString());
+            textProfileInstruments.setText(stringInstruments.toString());
         }
     }
+
+
+
+/*
+    //CARGA LA INFORMACION DEL USUARIO
+    //PODRIA HACERSE DE OTRA FORMA?
+    //podria pasarse un objeto con informacion desde la actividad de profile
+    //de todas formas esto no va a cambiar nada para usuarios que se estan registrando
+    //permite editar el perfil
+    private void loadUserInfo(DataSnapshot dataSnapshot) {
+        String UserID = mAuth.getCurrentUser().getUid();
+        String username = null;
+        String firstname = null;
+        String lastname = null;
+        Integer birthday = null;
+        Integer birthmonth = null;
+        Integer birthyear = null;
+        String imageurl = null;
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+            UserModel uInfo = new UserModel();
+            if(ds.child(UserID).getValue() != null){
+                uInfo.setUserName(ds.child(UserID).getValue(UserModel.class).getUserName());
+                uInfo.setImageUrl(ds.child(UserID).getValue(UserModel.class).getImageUrl());
+                uInfo.setFirstName(ds.child(UserID).getValue(UserModel.class).getFirstName());
+                uInfo.setLastName(ds.child(UserID).getValue(UserModel.class).getLastName());
+                uInfo.setBirthDay(ds.child(UserID).getValue(UserModel.class).getBirthDay());
+                uInfo.setBirthMonth(ds.child(UserID).getValue(UserModel.class).getBirthMonth());
+                uInfo.setBirthYear(ds.child(UserID).getValue(UserModel.class).getBirthYear());
+
+                username = uInfo.getUserName();
+                imageurl = uInfo.getImageUrl();
+                firstname = uInfo.getFirstName();
+                lastname = uInfo.getLastName();
+                birthday = uInfo.getBirthDay();
+                birthmonth = uInfo.getBirthMonth();
+                birthyear = uInfo.getBirthYear();
+            }
+        }
+        if(username != null && imageurl != null && firstname != null && lastname != null
+                && birthday != null && birthmonth != null && birthyear != null){
+            Picasso.get().load(imageurl).into(imageUserProfile);
+            textUserName.setText(username);
+            textFirstName.setText(firstname);
+            textLastName.setText(lastname);
+            String date = birthday + "/" + birthmonth + "/" + birthyear;
+            textBirth.setText(date);
+
+            user.setBirthDay(birthday);
+            user.setBirthMonth(birthmonth);
+            user.setBirthYear(birthyear);
+            try{
+                URL url = new URL(imageurl);
+                imageHoldUri = Uri.parse(url.toURI().toString());
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+*/
+
+
 }

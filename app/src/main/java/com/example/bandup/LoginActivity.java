@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.bandup.userprofile.FillData1Activity;
 import com.example.bandup.userprofile.UserModel;
+import com.example.bandup.userprofile.UserProfileActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -33,6 +34,10 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button googleLoginButton;
     private LoginButton facebookLoginButton;
     private TextView signUp;
+    private TextView forgotPassword;
     private EditText textEmail;
     private EditText textPassword;
     private ProgressDialog progressDialog;
@@ -55,12 +61,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        textEmail = (EditText) findViewById(R.id.textEmail);
-        textPassword = (EditText) findViewById(R.id.textPassword);
-        facebookLoginButton = (LoginButton) findViewById(R.id.facebookLoginButton);
-        googleLoginButton = (Button) findViewById(R.id.googleLoginButton);
-        emailLoginButton = (Button) findViewById(R.id.emailLoginButton);
-        signUp = (TextView) findViewById(R.id.buttonRegister);
+        textEmail = findViewById(R.id.textEmail);
+        textPassword = findViewById(R.id.textPassword);
+        facebookLoginButton = findViewById(R.id.facebookLoginButton);
+        googleLoginButton = findViewById(R.id.googleLoginButton);
+        emailLoginButton = findViewById(R.id.emailLoginButton);
+        signUp = findViewById(R.id.buttonRegister);
+        forgotPassword = findViewById(R.id.forgotPassword);
         mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
         callbackManager = CallbackManager.Factory.create();
@@ -71,9 +78,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "Login exitoso con " + authClient, Toast.LENGTH_LONG).show();
                     FirebaseUser user = mAuth.getCurrentUser();
-                    updateUI(user);
+                    if(authClient.equals("Email")){
+                        if(user.isEmailVerified()){
+                            Toast.makeText(LoginActivity.this, "Login exitoso con " + authClient, Toast.LENGTH_LONG).show();
+                            updateUI(user);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Debe verificar el mail", Toast.LENGTH_LONG).show();
+                            updateUI(null);
+                        }
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login exitoso con " + authClient, Toast.LENGTH_LONG).show();
+                        updateUI(user);
+                    }
+
                 } else {
                     Toast.makeText(LoginActivity.this, "Hubo un error en el login con " + authClient, Toast.LENGTH_LONG).show();
                     updateUI(null);
@@ -85,6 +103,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+            }
+        });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RestorePasswordDialogFragment restorePasswordDialogFragment = new RestorePasswordDialogFragment();
+                restorePasswordDialogFragment.setEmailAddress(textEmail.getText().toString().trim());
+                restorePasswordDialogFragment.show(getSupportFragmentManager(), "recuperación de contraseña");
             }
         });
         emailLoginButton.setOnClickListener(this);
@@ -174,12 +200,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void updateUI(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
-            UserModel user = new UserModel();
+            final UserModel user = new UserModel();
             user.setUid(firebaseUser.getUid());
-            Intent next = new Intent(LoginActivity.this, FillData1Activity.class);
-            next.putExtra("user", user);
-            //finish();
-            startActivity(next);
+            FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        Toast.makeText(LoginActivity.this, "Se termino de registrar", Toast.LENGTH_LONG).show();
+                        Intent fillActivity = new Intent(LoginActivity.this, UserProfileActivity.class);
+                        fillActivity.putExtra("user", user);
+                        finish();
+                        startActivity(fillActivity);
+
+                    } else {
+                        Toast.makeText(LoginActivity.this, "No se registro", Toast.LENGTH_LONG).show();
+                        Intent fillActivity = new Intent(LoginActivity.this, FillData1Activity.class);
+                        fillActivity.putExtra("user", user);
+                        finish();
+                        startActivity(fillActivity);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(LoginActivity.this, "Error en traer el usuario", Toast.LENGTH_LONG).show();
+                }
+            });
         } else {
             //TODO: administrar error de inicio de sesión
         }

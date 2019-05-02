@@ -12,14 +12,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.bandup.MainActivity;
 import com.example.bandup.R;
-import com.example.bandup.userprofile.Item;
-import com.example.bandup.userprofile.ItemsListAdapter;
-import com.example.bandup.userprofile.UserModel;
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +26,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class FillData3Activity extends AppCompatActivity {
 
@@ -55,9 +50,9 @@ public class FillData3Activity extends AppCompatActivity {
         progressDialog.setMessage("Cargando géneros musicales");
         progressDialog.show();
         user = (UserModel) getIntent().getSerializableExtra("user");
-        imageBack3 = (ImageView) findViewById(R.id.imageBack3);
-        listView = (ListView) findViewById(R.id.listGenres);
-        buttonSave = (Button) findViewById(R.id.buttonSave);
+        imageBack3 = findViewById(R.id.imageBack3);
+        listView = findViewById(R.id.listGenres);
+        buttonSave = findViewById(R.id.buttonSave);
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
         musicalGenresRef = FirebaseDatabase.getInstance().getReference().child("resources").child("musicalGenres");
         musicalGenresRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -70,7 +65,7 @@ public class FillData3Activity extends AppCompatActivity {
                     resourceList[i] = childDataSnapshot.getKey();
                     i++;
                 }
-                items = new ArrayList<Item>();
+                items = new ArrayList<>();
                 for (int j = 0; j < childrenCount; j++) {
                     Item item = new Item();
                     item.setItemString(resourceList[j]);
@@ -116,7 +111,7 @@ public class FillData3Activity extends AppCompatActivity {
         progressDialog.setMessage("Porfavor espere mientras se guardan sus datos");
         progressDialog.show();
 
-        final StorageReference mChildStorage = mStorageRef.child("User_Profile").child(user.getImageUri().getLastPathSegment());
+        final StorageReference mChildStorage = mStorageRef.child("User_Profile").child(Objects.requireNonNull(user.getImageUri().getLastPathSegment()));
         mChildStorage.putFile(user.getImageUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

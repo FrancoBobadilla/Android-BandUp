@@ -2,8 +2,6 @@ package com.example.bandup.userprofile;
 
 import android.net.Uri;
 
-import com.google.firebase.auth.FirebaseUser;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -24,7 +22,18 @@ public class UserModel implements Serializable {
     private List<String> musicalGenres;
 
     public UserModel() {
-
+        imageUrl = null;
+        imageUri = null;
+        userName = null;
+        firstName = null;
+        lastName = null;
+        age = null;
+        birthDay = null;
+        birthMonth = null;
+        birthYear = null;
+        uid = null;
+        musicalInstruments = null;
+        musicalGenres = null;
     }
 
     public String getImageUrl() {

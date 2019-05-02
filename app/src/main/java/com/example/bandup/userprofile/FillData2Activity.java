@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,9 +42,9 @@ public class FillData2Activity extends AppCompatActivity {
         progressDialog.setMessage("Cargando instrumentos");
         progressDialog.show();
         user = (UserModel) getIntent().getSerializableExtra("user");
-        imageBack2 = (ImageView) findViewById(R.id.imageBack2);
-        listView = (ListView) findViewById(R.id.listInstruments);
-        buttonNextFill3 = (Button) findViewById(R.id.buttonNextFill3);
+        imageBack2 = findViewById(R.id.imageBack2);
+        listView = findViewById(R.id.listInstruments);
+        buttonNextFill3 = findViewById(R.id.buttonNextFill3);
         musicalInstrumentsRef = FirebaseDatabase.getInstance().getReference().child("resources").child("musicalInstruments");
         musicalInstrumentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -57,7 +56,7 @@ public class FillData2Activity extends AppCompatActivity {
                     resourceList[i] = childDataSnapshot.getKey();
                     i++;
                 }
-                items = new ArrayList<Item>();
+                items = new ArrayList<>();
                 for (int j = 0; j < childrenCount; j++) {
                     Item item = new Item();
                     item.setItemString(resourceList[j]);
@@ -83,8 +82,6 @@ public class FillData2Activity extends AppCompatActivity {
                     user.setMusicalInstruments(lista);
                     Intent next = new Intent(FillData2Activity.this, FillData3Activity.class);
                     next.putExtra("user", user);
-                    //finish();
-                    //next.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(next);
                 } else {
                     Toast.makeText(FillData2Activity.this, "Elija un instrumento musical", Toast.LENGTH_SHORT).show();

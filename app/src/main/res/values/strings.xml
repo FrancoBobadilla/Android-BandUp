@@ -19,5 +19,8 @@
     <string name="select_your_musical_instruments">Selecciona tus instrumentos</string>
     <string name="next">Siguiente</string>
     <string name="fill_personal_data">Llena tus datos personales</string>
+    <string name="repeat_password">Repetir contraseña</string>
     <string name="sign_up">Registrate</string>
+    <string name="birthdate">Fecha de nacimiento</string>
+    <string name="forgot_password">¿Olvidaste la contraseña?</string>
 </resources>
