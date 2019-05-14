@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        startActivity(UserProfileActivity.class, "Se termino de registrar");
+                        startActivity(NavigationActivity.class, "Se termino de registrar");
                     } else {
                         UserModel user = new UserModel();
                         user.setUid(uid);

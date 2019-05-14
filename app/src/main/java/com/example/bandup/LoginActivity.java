@@ -207,7 +207,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         Toast.makeText(LoginActivity.this, "Se termino de registrar", Toast.LENGTH_LONG).show();
-                        Intent fillActivity = new Intent(LoginActivity.this, UserProfileActivity.class);
+                        //Intent fillActivity = new Intent(LoginActivity.this, UserProfileActivity.class);
+                        Intent fillActivity = new Intent(LoginActivity.this, NavigationActivity.class);
                         fillActivity.putExtra("user", user);
                         finish();
                         startActivity(fillActivity);

@@ -11,7 +11,8 @@
         android:roundIcon="@drawable/logo_circulo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".userprofile.UserProfileActivity"></activity>
+        <activity android:name=".NavigationActivity"></activity>
+        <activity android:name=".userprofile.UserProfileActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
