@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.bandup.NavigationActivity;
 import com.example.bandup.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -142,7 +143,7 @@ public class FillData3Activity extends AppCompatActivity {
     }
 
     private void moveToProfile() {
-        Intent moveToProfile = new Intent(FillData3Activity.this, UserProfileActivity.class);
+        Intent moveToProfile = new Intent(FillData3Activity.this, NavigationActivity.class);
         moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(moveToProfile);
     }
