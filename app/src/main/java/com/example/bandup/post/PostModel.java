@@ -1,13 +1,15 @@
 package com.example.bandup.post;
 
+import android.net.Uri;
+
 public class PostModel {
     private String postId;
-    private String postFile;
+    private Uri postFile;
     private String title;
     private String description;
     private String publisher;
 
-    public PostModel(String postId, String postFile, String title, String description, String publisher) {
+    public PostModel(String postId, Uri postFile, String title, String description, String publisher) {
         this.postId = postId;
         this.postFile = postFile;
         this.title = title;
@@ -26,11 +28,11 @@ public class PostModel {
         this.postId = postId;
     }
 
-    public String getPostFile() {
+    public Uri getPostFile() {
         return postFile;
     }
 
-    public void setPostFile(String postFile) {
+    public void setPostFile(Uri postFile) {
         this.postFile = postFile;
     }
 
