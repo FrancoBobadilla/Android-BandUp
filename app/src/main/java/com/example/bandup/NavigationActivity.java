@@ -1,5 +1,6 @@
 package com.example.bandup;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.bandup.post.PostActivity;
 import com.example.bandup.userprofile.ProfileFragment;
 
 public class NavigationActivity extends AppCompatActivity {
@@ -41,7 +43,8 @@ public class NavigationActivity extends AppCompatActivity {
                             //selectedFragment = new messageFragment();
                             break;
                         case R.id.nav_add:
-                            //selectedFragment = new addFragment();
+                            selectedFragment = null;
+                            startActivity(new Intent(NavigationActivity.this, PostActivity.class));
                             break;
                         case R.id.nav_match:
                             //selectedFragment = new matchFragment();
