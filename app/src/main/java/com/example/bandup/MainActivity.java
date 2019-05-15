@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            startActivity(LoginActivity.class, "No hay un usuario");
-        }
+            finish();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));        }
     }
 
     private void startActivity(Class<?> activityClass, String message) {
