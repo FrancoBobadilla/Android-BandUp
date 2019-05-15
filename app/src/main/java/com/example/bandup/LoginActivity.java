@@ -224,7 +224,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(LoginActivity.this, "Error en traer el usuario", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LoginActivity.this, "Error en traer el usuario", Toast.LENGTH_LONG).show();
                 }
             });
         } else {
