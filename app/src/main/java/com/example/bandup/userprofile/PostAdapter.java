@@ -67,6 +67,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
                     }
                 }
             });
+            viewHolder.postDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseDatabase.getInstance().getReference().child("posts").child(post.getPostId()).removeValue();
+                }
+            });
         }
         publisherInfo(viewHolder.postUserProfileImage, viewHolder.postTextUsername, post.getPublisher());
     }
