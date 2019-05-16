@@ -38,6 +38,7 @@ public class NavigationActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_add:
                     selectedFragment = null;
+                    //finish();
                     startActivity(new Intent(NavigationActivity.this, PostActivity.class));
                     break;
                 case R.id.nav_match:

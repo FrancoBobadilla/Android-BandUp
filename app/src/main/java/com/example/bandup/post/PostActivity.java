@@ -89,9 +89,11 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void close() {
-        Intent back = new Intent(PostActivity.this, NavigationActivity.class);
+        //Si se hace de esta manera hay mejor interaccion entre activities
+
+        //Intent back = new Intent(PostActivity.this, NavigationActivity.class);
         finish();
-        startActivity(back);
+        //startActivity(back);
     }
 
     private void audioSelection() {
@@ -175,6 +177,7 @@ public class PostActivity extends AppCompatActivity {
                         postRef.child("uid").setValue(post.getPublisher());
                         postRef.child("url").setValue(uri.toString());
                         postRef.child("Extension").setValue(getFileExtension(uri));
+
                         progressDialog.dismiss();
                         close();
                     }

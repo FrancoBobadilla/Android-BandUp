@@ -171,19 +171,20 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 postList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (mAuth.getCurrentUser().getUid().equals(snapshot.child("uid").getValue().toString())) {
+                    if (mAuth.getCurrentUser().getUid().equals(snapshot.child("uid").getValue(String.class))) {
                         PostModel post = new PostModel();
                         post.setPostId(snapshot.getKey());
-                        post.setPublisher(snapshot.child("uid").getValue().toString());
-                        post.setTitle(snapshot.child("Title").getValue().toString());
-                        post.setDescription(snapshot.child("Description").getValue().toString());
-                        post.setPostFile(Uri.parse(snapshot.child("url").getValue().toString()));
+                        post.setPublisher(snapshot.child("uid").getValue(String.class));
+                        post.setTitle(snapshot.child("Title").getValue(String.class));
+                        post.setDescription(snapshot.child("Description").getValue(String.class));
+                        //es lo que hay, con esto no crashea despues de postear
+                        if(snapshot.child("url").getValue(String.class) != null)
+                            post.setPostFile(Uri.parse(snapshot.child("url").getValue(String.class)));
                         postList.add(post);
                     }
                 }
                 postAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
