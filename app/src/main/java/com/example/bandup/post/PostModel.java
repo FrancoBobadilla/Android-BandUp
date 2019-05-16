@@ -9,14 +9,6 @@ public class PostModel {
     private String description;
     private String publisher;
 
-    public PostModel(String postId, Uri postFile, String title, String description, String publisher) {
-        this.postId = postId;
-        this.postFile = postFile;
-        this.title = title;
-        this.description = description;
-        this.publisher = publisher;
-    }
-
     public PostModel() {
     }
 

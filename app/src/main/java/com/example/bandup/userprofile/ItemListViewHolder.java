@@ -3,7 +3,7 @@ package com.example.bandup.userprofile;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class ViewHolder {
+public class ItemListViewHolder {
     private CheckBox checkBox;
     private TextView text;
 

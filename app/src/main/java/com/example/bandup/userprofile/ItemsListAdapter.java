@@ -55,21 +55,21 @@ public class ItemsListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
-        ViewHolder viewHolder = new ViewHolder();
+        ItemListViewHolder itemListViewHolder = new ItemListViewHolder();
         if (rowView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             rowView = inflater.inflate(R.layout.list_row, null);
-            viewHolder.setCheckBox((CheckBox) rowView.findViewById(R.id.rowCheckBox));
-            viewHolder.setText((TextView) rowView.findViewById(R.id.rowTextView));
-            rowView.setTag(viewHolder);
+            itemListViewHolder.setCheckBox((CheckBox) rowView.findViewById(R.id.rowCheckBox));
+            itemListViewHolder.setText((TextView) rowView.findViewById(R.id.rowTextView));
+            rowView.setTag(itemListViewHolder);
         } else {
-            viewHolder = (ViewHolder) rowView.getTag();
+            itemListViewHolder = (ItemListViewHolder) rowView.getTag();
         }
-        viewHolder.getCheckBox().setChecked(list.get(position).isChecked());
-        viewHolder.getText().setText(list.get(position).getItemString());
-        viewHolder.getCheckBox().setTag(position);
-        viewHolder.getCheckBox().setChecked(list.get(position).isChecked());
-        viewHolder.getCheckBox().setOnClickListener(new View.OnClickListener() {
+        itemListViewHolder.getCheckBox().setChecked(list.get(position).isChecked());
+        itemListViewHolder.getText().setText(list.get(position).getItemString());
+        itemListViewHolder.getCheckBox().setTag(position);
+        itemListViewHolder.getCheckBox().setChecked(list.get(position).isChecked());
+        itemListViewHolder.getCheckBox().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean newState = !list.get(position).isChecked();

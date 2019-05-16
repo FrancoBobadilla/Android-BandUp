@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,18 +28,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Objects;
+
 public class PostActivity extends AppCompatActivity {
 
     private static final int PICK_AUDIO = 200;
 
-    private ImageView postClose;
-    private TextView postMusic;
-    private ImageView musicFile;
+    ImageView postClose;
+    TextView postMusic;
+    ImageView musicFile;
     private EditText musicTitle;
     private EditText musicDescription;
     private ProgressDialog progressDialog;
-    private String title;
-    private String description;
+    String title;
+    String description;
     private Uri audio;
     private String userId;
     private PostModel post;
@@ -79,15 +80,11 @@ public class PostActivity extends AppCompatActivity {
         });
 
         //Pide permisos al usuario
-        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (shouldShowRequestPermissionRationale(
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // Explain to the user why we need to read the contacts
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                Toast.makeText(PostActivity.this, "No se disponen de los permisos necesarios para realizar esta acción", Toast.LENGTH_LONG).show();
             }
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    PICK_AUDIO);
-            return;
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_AUDIO);
         }
     }
 
@@ -107,7 +104,7 @@ public class PostActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_AUDIO) {
             audio = data.getData();
-            musicTitle.setText(getFileName(audio));
+//            musicTitle.setText(getFileName(audio));
         }
     }
 
@@ -126,25 +123,23 @@ public class PostActivity extends AppCompatActivity {
         post.setDescription(description);
         post.setTitle(title);
         post.setPublisher(userId);
-        post.setPostId(post.getPublisher() + post.getTitle().trim());
+        post.setPostId(userId + title.trim());
         savePost();
     }
 
     //Usado para actualizar el texto del nombre de publicacion
     public String getFileName(Uri uri) {
         String result = null;
-        if (uri.getScheme().equals("content")) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            try {
+        if (Objects.equals(uri.getScheme(), "content")) {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
                     result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 }
-            } finally {
-                cursor.close();
             }
         }
         if (result == null) {
             result = uri.getPath();
+            assert result != null;
             int cut = result.lastIndexOf('/');
             if (cut != -1) {
                 result = result.substring(cut + 1);

@@ -217,12 +217,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/profile_recycler_view"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/profile_recycler_view_save"
-                android:visibility="gone"/>
-
         </LinearLayout>
 
     </ScrollView>

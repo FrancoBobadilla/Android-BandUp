@@ -1,20 +1,25 @@
 package com.example.bandup.userprofile;
 
-import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bandup.LoginActivity;
+import com.example.bandup.NavigationActivity;
 import com.example.bandup.R;
+import com.example.bandup.post.PostModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,13 +48,29 @@ public class ProfileFragment extends Fragment {
     private Button buttonEdit;
     private FirebaseAuth mAuth;
 
+    private RecyclerView recyclerView;
+    private PostAdapter postAdapter;
+    private List<PostModel> postList;
+
+    private List<String> followingList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        recyclerView = view.findViewById(R.id.profile_recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        postList = new ArrayList<>();
+        postAdapter = new PostAdapter(getContext(), postList);
+        recyclerView.setAdapter(postAdapter);
+
         mAuth = FirebaseAuth.getInstance();
+        readPosts();
 
         imageProfilePic = view.findViewById(R.id.imageProfilePic);
         textProfileUserName = view.findViewById(R.id.textProfileUserName);
@@ -76,7 +100,7 @@ public class ProfileFragment extends Fragment {
                 mAuth.signOut();
                 Intent moveToLogin = new Intent(getActivity(), LoginActivity.class);
                 moveToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                getActivity().finish();
+                Objects.requireNonNull(getActivity()).finish();
                 startActivity(moveToLogin);
             }
         });
@@ -93,7 +117,78 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
         return view;
+    }
+//      PONER EN HOME ACTIVITY
+//    private void checkFollowing() {
+//        followingList = new ArrayList<>();
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("follow").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following");
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                followingList.clear();
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                    followingList.add(snapshot.getKey());
+//                }
+//                readPosts();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+//
+//    private void readPosts() {
+//        FirebaseDatabase.getInstance().getReference("posts").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                postList.clear();
+//                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                    PostModel post = snapshot.getValue(PostModel.class);
+//                    for(String id : followingList){
+//                        assert post != null;
+//                        if(id.equals(post.getPublisher())){
+//                            postList.add(post);
+//                        }
+//                    }
+//                }
+//                postAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+
+    private void readPosts() {
+        FirebaseDatabase.getInstance().getReference("posts").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                postList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (mAuth.getCurrentUser().getUid().equals(snapshot.child("uid").getValue().toString())) {
+                        PostModel post = new PostModel();
+                        post.setPostId(snapshot.getKey());
+                        post.setPublisher(snapshot.child("uid").getValue().toString());
+                        post.setTitle(snapshot.child("Title").getValue().toString());
+                        post.setDescription(snapshot.child("Description").getValue().toString());
+                        post.setPostFile(Uri.parse(snapshot.child("url").getValue().toString()));
+                        postList.add(post);
+                    }
+                }
+                postAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void loadUserInfo(DataSnapshot dataSnapshot) {
@@ -167,5 +262,4 @@ public class ProfileFragment extends Fragment {
             textProfileInstruments.setText(stringInstruments.toString());
         }
     }
-
 }
