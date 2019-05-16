@@ -1,8 +1,10 @@
 package com.example.bandup.post;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +56,7 @@ public class PostActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         userId = getUserId();
         post = new PostModel();
+        audio = null;
         postClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +75,17 @@ public class PostActivity extends AppCompatActivity {
                 audioSelection();
             }
         });
+
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (shouldShowRequestPermissionRationale(
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Explain to the user why we need to read the contacts
+            }
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PICK_AUDIO);
+            return;
+        }
     }
 
     private void close() {
@@ -81,7 +95,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void audioSelection() {
-        Intent audio = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.INTERNAL_CONTENT_URI);
+        Intent audio = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(audio, PICK_AUDIO);
     }
 
