@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bandup.R;
+import com.example.bandup.post.DeletePostDialogFragment;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
 
@@ -16,6 +17,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public ImageView postPlayButton;
     public TextView postTextDescription;
     public ImageView postDelete;
+    public DeletePostDialogFragment deletePostDialogFragment;
 
     public PostViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -26,5 +28,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         postTextTitle = itemView.findViewById(R.id.postTextTitle);
         postPlayButton = itemView.findViewById(R.id.postPlayButton);
         postTextDescription = itemView.findViewById(R.id.postTextDescription);
+
+        deletePostDialogFragment = new DeletePostDialogFragment();
     }
 }

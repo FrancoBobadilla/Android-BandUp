@@ -3,6 +3,7 @@ package com.example.bandup.userprofile;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.bandup.post.DeletePostDialogFragment;
 import com.example.bandup.R;
 import com.example.bandup.post.PostModel;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +30,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
     private List<PostModel> mPost;
     private MediaPlayer mediaPlayer;
     private int activeAudio;
+
 
     public PostAdapter(Context mContext, List<PostModel> mPost) {
         this.mContext = mContext;
@@ -50,6 +53,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
         if (post.getDescription().equals("")) {
             viewHolder.postTextDescription.setVisibility(View.GONE);
         } else {
+            viewHolder.deletePostDialogFragment.setPostId(post.getPostId());
             viewHolder.postTextDescription.setVisibility(View.VISIBLE);
             viewHolder.postTextDescription.setText(post.getDescription());
             viewHolder.postTextTitle.setText(post.getTitle());
@@ -70,7 +74,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
             viewHolder.postDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FirebaseDatabase.getInstance().getReference().child("posts").child(post.getPostId()).removeValue();
+                    viewHolder.deletePostDialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "borrar publicacion");
                 }
             });
         }
