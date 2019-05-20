@@ -1,6 +1,5 @@
 package com.example.bandup.home;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.example.bandup.R;
 import com.example.bandup.post.PostModel;
-import com.example.bandup.userprofile.PostAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,13 +24,13 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private PostAdapter postAdapter;
+    private HomeAdapter homeAdapter;
     private List<PostModel> postList;
 
-    private FirebaseAuth mAuth;
+    //private FirebaseAuth mAuth;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -43,10 +41,10 @@ public class HomeFragment extends Fragment {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         postList = new ArrayList<>();
-        postAdapter = new PostAdapter(getContext(), postList);
-        recyclerView.setAdapter(postAdapter);
+        homeAdapter = new HomeAdapter(getContext(), postList);
+        recyclerView.setAdapter(homeAdapter);
 
-        mAuth = FirebaseAuth.getInstance();
+        //mAuth = FirebaseAuth.getInstance();
         readPosts();
 
         return view;
@@ -68,7 +66,7 @@ public class HomeFragment extends Fragment {
                         post.setPostFile(Uri.parse(snapshot.child("url").getValue(String.class)));
                     postList.add(post);
                 }
-                postAdapter.notifyDataSetChanged();
+                homeAdapter.notifyDataSetChanged();
             }
 
             @Override
