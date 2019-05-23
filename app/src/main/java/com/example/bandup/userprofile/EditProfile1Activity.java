@@ -95,7 +95,8 @@ public class EditProfile1Activity extends AppCompatActivity {
         buttonNextEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent preferences = new Intent(EditProfile1Activity.this, EditProfile2Activity.class);
+                //Intent preferences = new Intent(EditProfile1Activity.this, FillData2Activity.class);
+                //preferences.putExtra("codigo", 2);
                 //startActivity(preferences);
             }
         });
@@ -239,6 +240,9 @@ public class EditProfile1Activity extends AppCompatActivity {
             user.setUserName(textUserName.getText().toString());
             user.setFirstName(textFirstName.getText().toString());
             user.setLastName(textLastName.getText().toString());
+        } else{
+            Toast.makeText(EditProfile1Activity.this, "Debe completar todos los campos", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         userRef.child("userName").setValue(user.getUserName());
@@ -248,7 +252,6 @@ public class EditProfile1Activity extends AppCompatActivity {
         userRef.child("birthDay").setValue(user.getBirthDay());
         userRef.child("birthMonth").setValue(user.getBirthMonth());
         userRef.child("birthYear").setValue(user.getBirthYear());
-        userRef.child("uid").setValue(user.getUid());
 
         if(imageHoldUri != null){
             final StorageReference mChildStorage = mStorageRef.child("User_Profile").child(Objects.requireNonNull(user.getImageUri().getLastPathSegment()));

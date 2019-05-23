@@ -139,7 +139,7 @@
                             android:layout_marginTop="36dp"
                             android:id="@+id/buttonEdit"
                             android:background="@color/light"
-                            android:text="Editar Perfil"/>
+                            android:text="Editar"/>
 
                         <Button
                             android:layout_width="wrap_content"

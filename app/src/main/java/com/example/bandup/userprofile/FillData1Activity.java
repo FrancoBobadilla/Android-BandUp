@@ -151,6 +151,7 @@ public class FillData1Activity extends AppCompatActivity {
             user.setAge(age);
             Intent next = new Intent(FillData1Activity.this, FillData2Activity.class);
             next.putExtra("user", user);
+            //next.putExtra("codigo", 1);
             //finish();
             startActivity(next);
         }
