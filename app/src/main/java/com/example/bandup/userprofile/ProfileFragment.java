@@ -1,7 +1,6 @@
 package com.example.bandup.userprofile;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,11 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bandup.LoginActivity;
-import com.example.bandup.NavigationActivity;
 import com.example.bandup.R;
+import com.example.bandup.post.PostAdapter;
 import com.example.bandup.post.PostModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,8 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -107,13 +103,13 @@ public class ProfileFragment extends Fragment {
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserModel user = new UserModel();
-                user.setUid(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
-                Intent moveToFillActivity = new Intent(getActivity(), FillData1Activity.class);
-                moveToFillActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                moveToFillActivity.putExtra("user", user);
+                //UserModel user = new UserModel();
+                //user.setUid(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+                Intent moveToEditActivity = new Intent(getActivity(), EditProfile1Activity.class);
+                moveToEditActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //moveToFillActivity.putExtra("user", user);
                 //getActivity().finish();
-                startActivity(moveToFillActivity);
+                startActivity(moveToEditActivity);
             }
         });
 

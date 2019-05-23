@@ -24,16 +24,16 @@
 
     <ImageView
         android:id="@+id/imageUserProfile"
-        android:layout_width="500dp"
+        android:layout_width="138dp"
         android:layout_height="138dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        app:srcCompat="@drawable/click_here"
-        tools:srcCompat="@drawable/click_here"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitleFill1" />
+        app:layout_constraintTop_toBottomOf="@+id/textTitleFill1"
+        app:srcCompat="@drawable/click_here"
+        tools:srcCompat="@drawable/click_here" />
 
     <Button
         android:id="@+id/buttonNextFill2"
@@ -76,7 +76,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textLastName" />
+        app:layout_constraintTop_toBottomOf="@+id/textLastName"
+        android:textAlignment="center"/>
 
     <ImageView
         android:id="@+id/imageBack1"

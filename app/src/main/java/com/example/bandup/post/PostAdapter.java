@@ -1,4 +1,4 @@
-package com.example.bandup.userprofile;
+package com.example.bandup.post;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -11,9 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.bandup.post.DeletePostDialogFragment;
 import com.example.bandup.R;
-import com.example.bandup.post.PostModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
