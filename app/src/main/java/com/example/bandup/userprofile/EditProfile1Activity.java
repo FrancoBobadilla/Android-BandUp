@@ -95,9 +95,9 @@ public class EditProfile1Activity extends AppCompatActivity {
         buttonNextEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent preferences = new Intent(EditProfile1Activity.this, FillData2Activity.class);
-                //preferences.putExtra("codigo", 2);
-                //startActivity(preferences);
+                Intent preferences = new Intent(EditProfile1Activity.this, FillData2Activity.class);
+                preferences.putExtra("codigo", 2);
+                startActivity(preferences);
             }
         });
         buttonSave.setOnClickListener(new View.OnClickListener() {

@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.bandup.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,15 +34,24 @@ public class FillData2Activity extends AppCompatActivity {
     private DatabaseReference musicalInstrumentsRef;
     private UserModel user;
     private ProgressDialog progressDialog;
+    private Integer codigo;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_data_2);
+        mAuth = FirebaseAuth.getInstance();
+        codigo = (Integer) getIntent().getSerializableExtra("codigo");
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Cargando instrumentos");
         progressDialog.show();
-        user = (UserModel) getIntent().getSerializableExtra("user");
+        if(codigo == 1)
+            user = (UserModel) getIntent().getSerializableExtra("user");
+        else{
+            user = new UserModel();
+            user.setUid(mAuth.getCurrentUser().getUid());
+        }
         imageBack2 = findViewById(R.id.imageBack2);
         listView = findViewById(R.id.listInstruments);
         buttonNextFill3 = findViewById(R.id.buttonNextFill3);
@@ -82,6 +92,10 @@ public class FillData2Activity extends AppCompatActivity {
                     user.setMusicalInstruments(lista);
                     Intent next = new Intent(FillData2Activity.this, FillData3Activity.class);
                     next.putExtra("user", user);
+                    if(codigo == 1)
+                        next.putExtra("codigo", 1);
+                    else
+                        next.putExtra("codigo", 2);
                     startActivity(next);
                 } else {
                     Toast.makeText(FillData2Activity.this, "Elija un instrumento musical", Toast.LENGTH_SHORT).show();

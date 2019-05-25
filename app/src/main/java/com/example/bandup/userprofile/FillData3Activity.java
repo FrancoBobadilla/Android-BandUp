@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.bandup.NavigationActivity;
 import com.example.bandup.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,11 +43,13 @@ public class FillData3Activity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private UserModel user;
     private ProgressDialog progressDialog;
+    private Integer codigo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_data_3);
+        codigo = (Integer) getIntent().getSerializableExtra("codigo");
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Cargando géneros musicales");
         progressDialog.show();
@@ -88,7 +91,10 @@ public class FillData3Activity extends AppCompatActivity {
             public void onClick(View v) {
                 String[] selectedItems = myItemsListAdapter.getSelectedItems();
                 if (selectedItems.length > 0) {
-                    saveUserProfile();
+                    if(codigo == 1)
+                        saveUserProfile();
+                    else
+                        editUserProfile();
                 } else {
                     Toast.makeText(FillData3Activity.this, "Elija un género musical", Toast.LENGTH_SHORT).show();
                 }
@@ -101,6 +107,26 @@ public class FillData3Activity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void editUserProfile() {
+        String[] selectedItems = myItemsListAdapter.getSelectedItems();
+        List<String> listGenres = Arrays.asList(selectedItems);
+        user.setMusicalGenres(listGenres);
+
+        progressDialog.setTitle("Guardando");
+        progressDialog.setMessage("Porfavor espere mientras se guardan sus datos");
+        progressDialog.show();
+
+        userRef.child("musicalGenres").setValue(user.getMusicalGenres());
+        userRef.child("musicalInstruments").setValue(user.getMusicalInstruments());
+
+        progressDialog.dismiss();
+
+        Intent moveToProfile = new Intent(FillData3Activity.this, NavigationActivity.class);
+        //moveToProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        finishAffinity();
+        startActivity(moveToProfile);
     }
 
     private void saveUserProfile() {
