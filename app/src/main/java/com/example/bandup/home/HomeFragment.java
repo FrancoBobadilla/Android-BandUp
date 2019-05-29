@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.bandup.R;
 import com.example.bandup.post.PostModel;
+import com.example.bandup.search.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +27,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
+    private ImageView imageSearch;
     private List<PostModel> postList;
 
     //private FirebaseAuth mAuth;
@@ -43,6 +46,14 @@ public class HomeFragment extends Fragment {
         postList = new ArrayList<>();
         homeAdapter = new HomeAdapter(getContext(), postList);
         recyclerView.setAdapter(homeAdapter);
+
+        imageSearch = view.findViewById(R.id.home_search);
+        imageSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
+            }
+        });
 
         //mAuth = FirebaseAuth.getInstance();
         readPosts();

@@ -18,6 +18,7 @@ import com.example.bandup.LoginActivity;
 import com.example.bandup.R;
 import com.example.bandup.post.PostAdapter;
 import com.example.bandup.post.PostModel;
+import com.example.bandup.search.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +43,7 @@ public class ProfileFragment extends Fragment {
     private TextView textProfileInstruments;
     private Button buttonSignOut;
     private Button buttonEdit;
+    private ImageView imageSearch;
     private FirebaseAuth mAuth;
 
     private RecyclerView recyclerView;
@@ -78,6 +80,14 @@ public class ProfileFragment extends Fragment {
         textProfileInstruments = view.findViewById(R.id.textProfileInstruments);
         buttonSignOut = view.findViewById(R.id.buttonSignOut);
         buttonEdit = view.findViewById(R.id.buttonEdit);
+        imageSearch = view.findViewById(R.id.profile_search);
+
+        imageSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
+            }
+        });
 
         FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
             @Override
