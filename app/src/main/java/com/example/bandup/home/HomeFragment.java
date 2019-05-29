@@ -17,6 +17,7 @@ import com.example.bandup.search.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment {
     private HomeAdapter homeAdapter;
     private ImageView imageSearch;
     private List<PostModel> postList;
+    private List<String> followingList;
 
     //private FirebaseAuth mAuth;
 
@@ -56,9 +58,31 @@ public class HomeFragment extends Fragment {
         });
 
         //mAuth = FirebaseAuth.getInstance();
-        readPosts();
+        checkFollowing();
 
         return view;
+    }
+
+    private void checkFollowing() {
+        followingList = new ArrayList<>();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("follow")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                followingList.clear();
+                followingList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    followingList.add(snapshot.getKey());
+                }
+                readPosts();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void readPosts() {
@@ -75,7 +99,11 @@ public class HomeFragment extends Fragment {
                     //es lo que hay, con esto no crashea despues de postear
                     if (snapshot.child("url").getValue(String.class) != null)
                         post.setPostFile(Uri.parse(snapshot.child("url").getValue(String.class)));
-                    postList.add(post);
+                    for (String id : followingList){
+                        if (post.getPublisher().equals(id)){
+                            postList.add(post);
+                        }
+                    }
                 }
                 homeAdapter.notifyDataSetChanged();
             }
