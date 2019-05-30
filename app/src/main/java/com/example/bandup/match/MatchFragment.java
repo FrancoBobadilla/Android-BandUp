@@ -55,7 +55,7 @@ public class MatchFragment extends Fragment {
     }
 
     private void readMatches() {
-        FirebaseDatabase.getInstance().getReference("matches").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("matches").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 matchList.clear();
@@ -69,8 +69,10 @@ public class MatchFragment extends Fragment {
                         match.setPublisher(matchUid);
                         match.setTitle(snapshot.child("Title").getValue(String.class));
                         match.setDescription(snapshot.child("Description").getValue(String.class));
-                        //match.setInstruments(snapshot.child("Instruments").getValue(MatchModel.class).getInstruments());
-                        //match.setGenres(snapshot.child("Genres").getValue(MatchModel.class).getGenres());
+                        List<String> instruments = (List<String>) snapshot.child("Instruments").getValue();
+                        match.setInstruments(instruments);
+                        List<String> genres = (List<String>) snapshot.child("Genres").getValue();
+                        match.setGenres(genres);
                         matchList.add(match);
                     }
                 }
