@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".userprofile.EditProfile1Activity"></activity>
         <activity android:name=".post.PostActivity" />
+        <activity android:name=".match.NewMatchActivity" />
         <activity android:name=".NavigationActivity" />
         <activity android:name=".userprofile.UserProfileActivity" />
         <activity android:name=".MainActivity">
