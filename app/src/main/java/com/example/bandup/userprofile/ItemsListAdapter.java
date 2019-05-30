@@ -19,7 +19,7 @@ public class ItemsListAdapter extends BaseAdapter {
     private Context context;
     private List<Item> list;
 
-    ItemsListAdapter(Context context, List<Item> list) {
+    public ItemsListAdapter(Context context, List<Item> list) {
         this.context = context;
         this.list = list;
     }

@@ -69,8 +69,8 @@ public class MatchFragment extends Fragment {
                         match.setPublisher(matchUid);
                         match.setTitle(snapshot.child("Title").getValue(String.class));
                         match.setDescription(snapshot.child("Description").getValue(String.class));
-                        match.setInstruments(snapshot.child("Instruments").getValue(String.class));
-                        match.setGenres(snapshot.child("Genres").getValue(String.class));
+                        //match.setInstruments(snapshot.child("Instruments").getValue(MatchModel.class).getInstruments());
+                        //match.setGenres(snapshot.child("Genres").getValue(MatchModel.class).getGenres());
                         matchList.add(match);
                     }
                 }

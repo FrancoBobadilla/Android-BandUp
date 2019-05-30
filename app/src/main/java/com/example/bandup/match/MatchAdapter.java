@@ -41,7 +41,6 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchViewHolder> {
     public void onBindViewHolder(@NonNull final MatchViewHolder viewHolder, int i) {
 
         final MatchModel match = mMatch.get(i);
-        final int newActiveAudio = i;
         if (match.getDescription().equals("")) {
             viewHolder.matchTextDescription.setVisibility(View.GONE);
         } else {
@@ -49,6 +48,20 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchViewHolder> {
             viewHolder.matchTextDescription.setVisibility(View.VISIBLE);
             viewHolder.matchTextDescription.setText(match.getDescription());
             viewHolder.matchTextTitle.setText(match.getTitle());
+            String tmp = "Instrumentos: ";
+            if (match.getInstruments() != null){
+                for(String s : match.getInstruments()){
+                    tmp = tmp + s + ", ";
+                }
+            }
+            viewHolder.matchInstruments.setText(tmp);
+            tmp = "Generos: ";
+            if (match.getGenres() != null){
+                for(String s : match.getGenres()){
+                    tmp = tmp + s + ", ";
+                }
+            }
+            viewHolder.matchGenres.setText(tmp);
             viewHolder.matchAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

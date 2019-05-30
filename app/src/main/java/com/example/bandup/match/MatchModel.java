@@ -1,12 +1,14 @@
 package com.example.bandup.match;
 
+import java.util.List;
+
 public class MatchModel {
     private String matchId;
     private String title;
     private String publisher;
     private String description;
-    private String instruments;
-    private String genres;
+    private List<String> instruments;
+    private List<String> genres;
 
     public String getMatchId() {
         return matchId;
@@ -40,19 +42,19 @@ public class MatchModel {
         this.description = description;
     }
 
-    public String getInstruments() {
+    public List<String> getInstruments() {
         return instruments;
     }
 
-    public void setInstruments(String instruments) {
+    public void setInstruments(List<String> instruments) {
         this.instruments = instruments;
     }
 
-    public String getGenres() {
+    public List<String> getGenres() {
         return genres;
     }
 
-    public void setGenres(String genres) {
+    public void setGenres(List<String> genres) {
         this.genres = genres;
     }
 }

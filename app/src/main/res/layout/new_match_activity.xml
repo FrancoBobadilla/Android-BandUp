@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:hint="@string/title"
+            android:hint="Titulo del match"
             android:id="@+id/match_text_title" />
 
         <EditText
@@ -66,19 +66,35 @@
             android:hint="Descripción"
             android:id="@+id/match_text_description" />
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Instrumentos musicales"
-            android:id="@+id/match_text_instruments" />
+            android:layout_marginTop="20dp"
+            android:text="Instrumentos del match"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"/>
 
-        <EditText
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/match_list_instruments"/>
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Géneros musicales"
-            android:id="@+id/match_text_genres"/>
+            android:layout_marginTop="20dp"
+            android:text="Generos del match"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/match_list_genres"/>
 
     </LinearLayout>
 
