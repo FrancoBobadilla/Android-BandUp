@@ -1,6 +1,7 @@
 package com.example.bandup.match;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bandup.R;
+import com.example.bandup.userprofile.ProfileFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -66,6 +68,19 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchViewHolder> {
                 @Override
                 public void onClick(View v) {
                     viewHolder.acceptMatchFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "aceptar match");
+                }
+            });
+            viewHolder.matchUserProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserID", match.getPublisher());
+
+                    ProfileFragment fragment = new ProfileFragment();
+                    fragment.setArguments(bundle);
+
+                    ((FragmentActivity)mContext).getSupportFragmentManager()
+                            .beginTransaction().replace(R.id.fragment_container, fragment).commit();
                 }
             });
         }

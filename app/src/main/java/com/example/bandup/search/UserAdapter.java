@@ -1,7 +1,9 @@
 package com.example.bandup.search;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.bandup.R;
+import com.example.bandup.userprofile.ProfileFragment;
 import com.example.bandup.userprofile.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,14 +64,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             viewHolder.btnFollow.setVisibility(View.GONE);
         }
 
-        /*      ESTO SERIA PARA REDIRECCIONAR AL PERFIL DEL USUARIO
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("UserID", user.getUid());
 
+                ProfileFragment fragment = new ProfileFragment();
+                fragment.setArguments(bundle);
+
+                ((FragmentActivity)mContext).getSupportFragmentManager()
+                        .beginTransaction().replace(R.id.fragment_container, fragment).commit();
             }
         });
-        */
 
         viewHolder.btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override

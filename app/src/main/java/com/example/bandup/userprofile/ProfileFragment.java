@@ -45,6 +45,7 @@ public class ProfileFragment extends Fragment {
     private Button buttonEdit;
     private ImageView imageSearch;
     private FirebaseAuth mAuth;
+    private String USERID;
 
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
@@ -58,16 +59,33 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        mAuth = FirebaseAuth.getInstance();
+
         recyclerView = view.findViewById(R.id.profile_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         postList = new ArrayList<>();
-        postAdapter = new PostAdapter(getContext(), postList);
+        postAdapter = new PostAdapter(getContext(), postList, mAuth.getCurrentUser().getUid());
         recyclerView.setAdapter(postAdapter);
 
-        mAuth = FirebaseAuth.getInstance();
+        buttonSignOut = view.findViewById(R.id.buttonSignOut);
+        buttonEdit = view.findViewById(R.id.buttonEdit);
+
+        Bundle bundle = this.getArguments();
+        if(bundle != null){
+            USERID = bundle.getString("UserID");
+            if(USERID.equals(mAuth.getCurrentUser().getUid())){
+                buttonEdit.setVisibility(View.VISIBLE);
+                buttonSignOut.setVisibility(View.VISIBLE);
+            }
+        } else {
+            USERID = mAuth.getCurrentUser().getUid();
+            buttonEdit.setVisibility(View.VISIBLE);
+            buttonSignOut.setVisibility(View.VISIBLE);
+        }
+
         readPosts();
 
         imageProfilePic = view.findViewById(R.id.imageProfilePic);
@@ -78,14 +96,13 @@ public class ProfileFragment extends Fragment {
         textProfileAge = view.findViewById(R.id.textProfileAge);
         textProfileGenres = view.findViewById(R.id.textProfileGenres);
         textProfileInstruments = view.findViewById(R.id.textProfileInstruments);
-        buttonSignOut = view.findViewById(R.id.buttonSignOut);
-        buttonEdit = view.findViewById(R.id.buttonEdit);
         imageSearch = view.findViewById(R.id.profile_search);
 
         imageSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
             }
         });
 
@@ -177,7 +194,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 postList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (mAuth.getCurrentUser().getUid().equals(snapshot.child("uid").getValue(String.class))) {
+                    if (USERID.equals(snapshot.child("uid").getValue(String.class))) {
                         PostModel post = new PostModel();
                         post.setPostId(snapshot.getKey());
                         post.setPublisher(snapshot.child("uid").getValue(String.class));
@@ -199,7 +216,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadUserInfo(DataSnapshot dataSnapshot) {
-        String UserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        String UserID = USERID;
         String username = null;
         String imageurl = null;
         String firstname = null;

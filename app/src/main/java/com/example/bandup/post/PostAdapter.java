@@ -27,13 +27,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
     private Context mContext;
     private List<PostModel> mPost;
     private MediaPlayer mediaPlayer;
+    private String activeUser;
     private int activeAudio;
 
 
-    public PostAdapter(Context mContext, List<PostModel> mPost) {
+    public PostAdapter(Context mContext, List<PostModel> mPost,String Uid) {
         this.mContext = mContext;
         this.mPost = mPost;
         this.mediaPlayer = new MediaPlayer();
+        this.activeUser = Uid;
         this.activeAudio = -1;
     }
 
@@ -75,6 +77,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
                     viewHolder.deletePostDialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "borrar publicacion");
                 }
             });
+            if(!activeUser.equals(post.getPublisher())){
+                viewHolder.postDelete.setVisibility(View.GONE);
+            }
         }
         publisherInfo(viewHolder.postUserProfileImage, viewHolder.postTextUsername, post.getPublisher());
     }
