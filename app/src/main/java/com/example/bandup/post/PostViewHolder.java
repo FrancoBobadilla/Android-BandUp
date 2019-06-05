@@ -9,10 +9,12 @@ import android.widget.TextView;
 import com.example.bandup.R;
 import com.example.bandup.post.DeletePostDialogFragment;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class PostViewHolder extends RecyclerView.ViewHolder {
 
     public TextView postTextUsername;
-    public ImageView postUserProfileImage;
+    public CircleImageView postUserProfileImage;
     public TextView postTextTitle;
     public ImageView postPlayButton;
     public TextView postTextDescription;

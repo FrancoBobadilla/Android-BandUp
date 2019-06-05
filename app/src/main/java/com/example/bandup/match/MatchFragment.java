@@ -29,10 +29,15 @@ public class MatchFragment extends Fragment {
     private MatchAdapter matchAdapter;
     private ImageView newMatch;
     private List<MatchModel> matchList;
+    private List<String> listPreferredInstruments;
+    private List<String> listPreferredGenres;
+    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_match, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
         recyclerView = view.findViewById(R.id.match_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
@@ -50,8 +55,34 @@ public class MatchFragment extends Fragment {
                 startActivity(moveToEditActivity);
             }
         });
+        getUserMatchSettings();
         readMatches();
         return view;
+    }
+
+    private void getUserMatchSettings() {
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(listPreferredInstruments != null)
+                            listPreferredInstruments.clear();
+                        if(listPreferredGenres != null)
+                            listPreferredGenres.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            if(snapshot.getKey().equals(mAuth.getCurrentUser().getUid())){
+                                listPreferredGenres = (List<String>) snapshot.child("musicalGenres").getValue();
+                                listPreferredInstruments = (List<String>) snapshot.child("musicalInstruments").getValue();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
     }
 
     private void readMatches() {
@@ -73,7 +104,11 @@ public class MatchFragment extends Fragment {
                         match.setInstruments(instruments);
                         List<String> genres = (List<String>) snapshot.child("Genres").getValue();
                         match.setGenres(genres);
-                        matchList.add(match);
+                        assert instruments != null;
+                        for(String element : instruments) {
+                            if (listPreferredInstruments.contains(element))
+                                matchList.add(match);
+                        }
                     }
                 }
                 matchAdapter.notifyDataSetChanged();

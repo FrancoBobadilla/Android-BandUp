@@ -51,11 +51,31 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@+id/home_bar"
+        android:id="@+id/match_label"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Estos son los usuarios que encontramos para vos"
+            android:textAlignment="center"
+            android:id="@+id/match_label_text"/>
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/match_recycler_view"
-        android:layout_below="@id/home_bar">
+        android:layout_below="@id/match_label">
 
     </android.support.v7.widget.RecyclerView>
 
