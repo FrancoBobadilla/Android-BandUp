@@ -107,7 +107,8 @@ public class MatchFragment extends Fragment {
                         assert instruments != null;
                         for(String element : instruments) {
                             if (listPreferredInstruments.contains(element))
-                                matchList.add(match);
+                                if(!matchList.contains(match))
+                                    matchList.add(match);
                         }
                     }
                 }
