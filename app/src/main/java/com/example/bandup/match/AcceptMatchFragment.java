@@ -13,14 +13,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AcceptMatchFragment extends DialogFragment {
-    private String matchId;
+    private MatchModel match;
 
-    public String getMatchId() {
-        return matchId;
+    public MatchModel getMatch() {
+        return match;
     }
 
-    public void setMatchId(String matchId) {
-        this.matchId = matchId;
+    public void setMatch(MatchModel match) {
+        this.match = match;
     }
 
     @NonNull
@@ -32,9 +32,17 @@ public class AcceptMatchFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         String uid = FirebaseAuth.getInstance().getUid();
                         assert uid != null;
-                        Toast.makeText(getActivity(), matchId + ", " + uid, Toast.LENGTH_LONG).show();
-                        DatabaseReference refPostulant = FirebaseDatabase.getInstance().getReference().child("matches").child(matchId).child("postulants");
+                        Toast.makeText(getActivity(), match + ", " + uid, Toast.LENGTH_LONG).show();
+                        DatabaseReference refPostulant = FirebaseDatabase.getInstance().getReference().child("matches").child(match.getMatchId()).child("postulants");
                         refPostulant.child(uid).setValue("hola");
+                        FirebaseDatabase.getInstance().getReference().child("users").child(match.getPublisher()).child("messages").setValue(match.getMatchId() + uid);
+                        DatabaseReference messageToPublisher = FirebaseDatabase.getInstance().getReference().child("users").child(match.getPublisher()).child("messages").child(match.getMatchId() + uid);
+                        messageToPublisher.child("type").setValue(1);
+                        messageToPublisher.child("sender").setValue(uid);
+                        messageToPublisher.child("receiver").setValue(match.getPublisher());
+                        messageToPublisher.child("text").setValue(match.getMatchId());
+                        messageToPublisher.child("timestamp").setValue("123123");
+
                     }
                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

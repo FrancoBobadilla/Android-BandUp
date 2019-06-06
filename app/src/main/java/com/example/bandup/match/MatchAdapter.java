@@ -46,7 +46,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchViewHolder> {
         if (match.getDescription().equals("")) {
             viewHolder.matchTextDescription.setVisibility(View.GONE);
         } else {
-            viewHolder.acceptMatchFragment.setMatchId(match.getMatchId());
+            viewHolder.acceptMatchFragment.setMatch(match);
             viewHolder.matchTextDescription.setVisibility(View.VISIBLE);
             viewHolder.matchTextDescription.setText(match.getDescription());
             viewHolder.matchTextTitle.setText(match.getTitle());

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.example.bandup.home.HomeFragment;
 import com.example.bandup.match.MatchFragment;
+import com.example.bandup.message.MessageFragment;
 import com.example.bandup.post.PostActivity;
 import com.example.bandup.userprofile.ProfileFragment;
 
@@ -35,7 +36,7 @@ public class NavigationActivity extends AppCompatActivity {
                     selectedFragment = new HomeFragment();
                     break;
                 case R.id.nav_message:
-                    //selectedFragment = new MessageFragment();
+                    selectedFragment = new MessageFragment();
                     break;
                 case R.id.nav_add:
                     selectedFragment = null;
