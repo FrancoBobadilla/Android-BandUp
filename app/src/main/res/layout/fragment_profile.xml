@@ -144,23 +144,37 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:paddingBottom="5dp">
 
                         <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
-                            android:id="@+id/buttonEdit"
+                            android:id="@+id/buttonFollow"
+                            android:layout_marginTop="10dp"
+                            android:text="Seguir"
+                            android:minHeight="40dp"
                             android:background="@color/light"
+                            android:visibility="visible"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/buttonEdit"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/light"
+                            android:minHeight="40dp"
                             android:text="Editar"
                             android:visibility="gone"/>
 
                         <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:id="@+id/buttonSignOut"
+                            android:layout_marginTop="10dp"
+                            android:minHeight="40dp"
                             android:background="@color/light"
                             android:text="Sign Out"
                             android:visibility="gone"/>

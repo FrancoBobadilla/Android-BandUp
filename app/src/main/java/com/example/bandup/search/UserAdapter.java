@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.example.bandup.R;
 import com.example.bandup.userprofile.ProfileFragment;
@@ -62,6 +63,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
         if(user.getUid().equals(firebaseUser.getUid())){
             viewHolder.btnFollow.setVisibility(View.GONE);
+        }
+        if(user.getUid().equals("bandup")){
+            viewHolder.itemView.setVisibility(View.GONE);
+            viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
         }
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -22,6 +22,7 @@ import com.example.bandup.search.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
@@ -43,6 +44,7 @@ public class ProfileFragment extends Fragment {
     private TextView textProfileInstruments;
     private Button buttonSignOut;
     private Button buttonEdit;
+    private Button buttonFollow;
     private ImageView imageSearch;
     private FirebaseAuth mAuth;
     private String USERID;
@@ -72,18 +74,47 @@ public class ProfileFragment extends Fragment {
 
         buttonSignOut = view.findViewById(R.id.buttonSignOut);
         buttonEdit = view.findViewById(R.id.buttonEdit);
+        buttonFollow = view.findViewById(R.id.buttonFollow);
 
+        //esto se encarga de ver si es el perfil del usuario o no, y asigna los botones que corresponden
         Bundle bundle = this.getArguments();
         if(bundle != null){
             USERID = bundle.getString("UserID");
             if(USERID.equals(mAuth.getCurrentUser().getUid())){
                 buttonEdit.setVisibility(View.VISIBLE);
                 buttonSignOut.setVisibility(View.VISIBLE);
+                buttonFollow.setVisibility(View.GONE);
+            }else{
+                buttonEdit.setVisibility(View.GONE);
+                buttonSignOut.setVisibility(View.GONE);
+                buttonFollow.setVisibility(View.VISIBLE);
+                isFollowing(USERID,buttonFollow);
+                buttonFollow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(buttonFollow.getText().toString().equals("Seguir")){
+                            FirebaseDatabase.getInstance().getReference().child("follow")
+                                    .child(mAuth.getCurrentUser().getUid()).child("following").child(USERID)
+                                    .setValue(true);
+                            FirebaseDatabase.getInstance().getReference().child("follow")
+                                    .child(USERID).child("followers").child(mAuth.getCurrentUser().getUid())
+                                    .setValue(true);
+                        } else {
+                            FirebaseDatabase.getInstance().getReference().child("follow")
+                                    .child(mAuth.getCurrentUser().getUid()).child("following").child(USERID)
+                                    .removeValue();
+                            FirebaseDatabase.getInstance().getReference().child("follow")
+                                    .child(USERID).child("followers").child(mAuth.getCurrentUser().getUid())
+                                    .removeValue();
+                        }
+                    }
+                });
             }
         } else {
             USERID = mAuth.getCurrentUser().getUid();
             buttonEdit.setVisibility(View.VISIBLE);
             buttonSignOut.setVisibility(View.VISIBLE);
+            buttonFollow.setVisibility(View.GONE);
         }
 
         readPosts();
@@ -143,50 +174,6 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
-//      PONER EN HOME ACTIVITY
-//    private void checkFollowing() {
-//        followingList = new ArrayList<>();
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("follow").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following");
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                followingList.clear();
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                    followingList.add(snapshot.getKey());
-//                }
-//                readPosts();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-//
-//    private void readPosts() {
-//        FirebaseDatabase.getInstance().getReference("posts").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                postList.clear();
-//                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                    PostModel post = snapshot.getValue(PostModel.class);
-//                    for(String id : followingList){
-//                        assert post != null;
-//                        if(id.equals(post.getPublisher())){
-//                            postList.add(post);
-//                        }
-//                    }
-//                }
-//                postAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
 
     private void readPosts() {
         FirebaseDatabase.getInstance().getReference("posts").addValueEventListener(new ValueEventListener() {
@@ -285,5 +272,25 @@ public class ProfileFragment extends Fragment {
             textProfileGenres.setText(stringGenres.toString());
             textProfileInstruments.setText(stringInstruments.toString());
         }
+    }
+
+    private void isFollowing(final String userid, final Button button){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("follow").child(mAuth.getCurrentUser().getUid()).child("following");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child(userid).exists()){
+                    button.setText("Siguiendo");
+                } else{
+                    button.setText("Seguir");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
