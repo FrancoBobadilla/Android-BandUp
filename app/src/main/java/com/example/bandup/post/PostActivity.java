@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bandup.NavigationActivity;
 import com.example.bandup.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -106,7 +105,7 @@ public class PostActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_AUDIO) {
             audio = data.getData();
-//            musicTitle.setText(getFileName(audio));
+            // musicFile.setImageResource(R.drawable.ok_icon);
         }
     }
 
@@ -172,12 +171,12 @@ public class PostActivity extends AppCompatActivity {
                 mChildStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        postRef.child("uid").setValue(post.getPublisher());
                         postRef.child("Title").setValue(post.getTitle());
                         postRef.child("Description").setValue(post.getDescription());
-                        postRef.child("uid").setValue(post.getPublisher());
                         postRef.child("url").setValue(uri.toString());
                         postRef.child("Extension").setValue(getFileExtension(uri));
-
+                        postRef.child("timestamp").setValue(Long.toString(System.currentTimeMillis()));
                         progressDialog.dismiss();
                         close();
                     }

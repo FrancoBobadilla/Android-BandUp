@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/post_border">
+        android:background="@drawable/post_border"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,8 +34,8 @@
                     android:id="@+id/postUserProfileImage"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
-                    android:src="@android:drawable/ic_menu_report_image"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp"
+                    android:src="@android:drawable/ic_menu_report_image" />
 
             </LinearLayout>
 
@@ -78,14 +77,22 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/post_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiempo"
+            android:textSize="12sp" />
 
         <ImageView
+            android:id="@+id/postDelete"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_delete"
-            android:id="@+id/postDelete" />
+            android:src="@drawable/ic_delete" />
     </LinearLayout>
 
 </RelativeLayout>

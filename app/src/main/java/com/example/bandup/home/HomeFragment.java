@@ -65,8 +65,7 @@ public class HomeFragment extends Fragment {
 
     private void checkFollowing() {
         followingList = new ArrayList<>();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("follow")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("follow").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -86,20 +85,21 @@ public class HomeFragment extends Fragment {
     }
 
     private void readPosts() {
-        FirebaseDatabase.getInstance().getReference("posts").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("posts").orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 postList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     PostModel post = new PostModel();
-                    post.setPostId(snapshot.getKey());
                     post.setPublisher(snapshot.child("uid").getValue(String.class));
+                    post.setPostId(snapshot.getKey());
                     post.setTitle(snapshot.child("Title").getValue(String.class));
                     post.setDescription(snapshot.child("Description").getValue(String.class));
+                    post.setTimestamp(snapshot.child("timestamp").getValue(String.class));
                     //es lo que hay, con esto no crashea despues de postear
                     if (snapshot.child("url").getValue(String.class) != null)
                         post.setPostFile(Uri.parse(snapshot.child("url").getValue(String.class)));
-                    for (String id : followingList){
+                    for (String id : followingList) {
                         if (post.getPublisher().equals(id)){
                             postList.add(post);
                         }

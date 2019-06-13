@@ -19,6 +19,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public ImageView postPlayButton;
     public TextView postTextDescription;
     public ImageView postDelete;
+    public TextView postTime;
     public DeletePostDialogFragment deletePostDialogFragment;
 
     public PostViewHolder(@NonNull View itemView) {
@@ -30,7 +31,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         postTextTitle = itemView.findViewById(R.id.postTextTitle);
         postPlayButton = itemView.findViewById(R.id.postPlayButton);
         postTextDescription = itemView.findViewById(R.id.postTextDescription);
-
+        postTime = itemView.findViewById(R.id.post_time);
         deletePostDialogFragment = new DeletePostDialogFragment();
     }
 }

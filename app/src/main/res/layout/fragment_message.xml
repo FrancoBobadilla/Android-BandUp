@@ -57,9 +57,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_below="@+id/home_bar"
-        android:id="@+id/message_label"
-        android:padding="20dp">
-
+        android:id="@+id/message_label">
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

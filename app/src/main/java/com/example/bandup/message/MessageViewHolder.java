@@ -13,7 +13,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     public ImageView messageUserProfileImage;
     public TextView messageUsername;
     public TextView messageText;
-    public TextView messageAge;
+    public TextView messageTime;
     public ImageView messageAcceptPostulant;
     public ImageView messageCancelPostulant;
     public MessageAcceptPostulantFragment messageAcceptPostulantFragment;
@@ -25,7 +25,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         messageUserProfileImage = itemView.findViewById(R.id.messageUserProfileImage);
         messageUsername = itemView.findViewById(R.id.messageUsername);
         messageText = itemView.findViewById(R.id.messageText);
-        messageAge = itemView.findViewById(R.id.messageAge);
+        messageTime = itemView.findViewById(R.id.messageTime);
         messageAcceptPostulant = itemView.findViewById(R.id.messageAcceptPostulant);
         messageCancelPostulant = itemView.findViewById(R.id.messageCancelPostulant);
 

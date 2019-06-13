@@ -14,6 +14,7 @@
     <item
         android:id="@+id/nav_add"
         android:icon="@drawable/ic_add"
+        android:checked="true"
         android:title="" />
 
     <item

@@ -57,7 +57,7 @@ public class MessageFragment extends Fragment {
     private void readMessages() {
         String uid = FirebaseAuth.getInstance().getUid();
         assert uid != null;
-        FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("messages").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("messages").orderByChild("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 messageList.clear();

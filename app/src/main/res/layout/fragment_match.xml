@@ -57,17 +57,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_below="@+id/home_bar"
-        android:id="@+id/match_label"
-        android:padding="20dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="Estos son los usuarios que encontramos para vos"
-            android:textAlignment="center"
-            android:id="@+id/match_label_text"/>
+        android:id="@+id/match_label">
 
     </LinearLayout>
 

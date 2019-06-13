@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.bandup.NavigationActivity;
 import com.example.bandup.R;
 import com.example.bandup.userprofile.ProfileFragment;
 import com.google.firebase.database.DataSnapshot;
@@ -21,8 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
@@ -65,6 +67,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     private void setNotificationElement(final MessageViewHolder viewHolder, MessageModel message) {
         publisherInfo(viewHolder, message.getSender());
+        setTime(viewHolder, message.getTimestamp());
         viewHolder.messageText.setText(message.getText());
         viewHolder.messageAcceptPostulant.setVisibility(View.GONE);
         viewHolder.messageCancelPostulant.setVisibility(View.GONE);
@@ -72,10 +75,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     private void setNewPostulantElement(final MessageViewHolder viewHolder, MessageModel message) {
         publisherInfo(viewHolder, message.getSender());
-
+        setTime(viewHolder, message.getTimestamp());
         viewHolder.messageAcceptPostulantFragment.setMessage(message);
         viewHolder.messageCancelPostulantFragment.setMessage(message);
-        viewHolder.messageText.setText("Este músico se postuló para tocar contigo!");
+        viewHolder.messageText.setText("Nuevo postulante!");
         viewHolder.messageAcceptPostulant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,10 +95,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     private void setChatElement(final MessageViewHolder viewHolder, MessageModel message) {
         publisherInfo(viewHolder, message.getSender());
+        setTime(viewHolder, message.getTimestamp());
+
     }
 
     private void publisherInfo(final MessageViewHolder viewHolder, final String userid) {
-        if(!userid.equals("bandup")){
+        if (!userid.equals("bandup")) {
             viewHolder.messageUserProfileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -119,5 +124,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
             }
         });
+    }
+
+    private void setTime(final MessageViewHolder viewHolder, final String time) {
+        long ts = Long.parseLong(time);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(ts);
+        long diff = TimeUnit.MINUTES.convert(System.currentTimeMillis() - ts, TimeUnit.MILLISECONDS);
+        if (diff == 0) {
+            viewHolder.messageTime.setText("Ahora");
+            return;
+        }
+        if (diff < 1440) {
+            viewHolder.messageTime.setText(DateFormat.format("hh:mm", cal).toString());
+            return;
+        }
+        if (diff < 2880) {
+            viewHolder.messageTime.setText("Ayer");
+            return;
+        }
+        viewHolder.messageTime.setText(DateFormat.format("dd/MM/yyyy", cal).toString());
     }
 }

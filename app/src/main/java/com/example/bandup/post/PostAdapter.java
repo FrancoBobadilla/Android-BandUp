@@ -79,6 +79,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
             });
             if(!activeUser.equals(post.getPublisher())){
                 viewHolder.postDelete.setVisibility(View.GONE);
+            } else {
+                viewHolder.postTime.setVisibility(View.GONE);
             }
         }
         publisherInfo(viewHolder.postUserProfileImage, viewHolder.postTextUsername, post.getPublisher());

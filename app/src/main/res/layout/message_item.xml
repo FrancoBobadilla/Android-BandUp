@@ -67,7 +67,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/messageAge"
+            android:id="@+id/messageTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tiempo"
@@ -75,19 +75,18 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/messageCancelPostulant"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/ic_person_add" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_delete" />
 
             <ImageView
                 android:id="@+id/messageAcceptPostulant"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_person_add" />
         </LinearLayout>
     </LinearLayout>

@@ -31,14 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileFragment extends Fragment {
 
-    private ImageView imageProfilePic;
+    private CircleImageView imageProfilePic;
     private TextView textProfileUserName;
     private TextView textProfileName;
     private TextView textProfileLastName;
-    private TextView textProfileBirthDate;
     private TextView textProfileAge;
     private TextView textProfileGenres;
     private TextView textProfileInstruments;
@@ -123,7 +124,6 @@ public class ProfileFragment extends Fragment {
         textProfileUserName = view.findViewById(R.id.textProfileUserName);
         textProfileName = view.findViewById(R.id.textProfileName);
         textProfileLastName = view.findViewById(R.id.textProfileLastName);
-        textProfileBirthDate = view.findViewById(R.id.textProfileBirthDate);
         textProfileAge = view.findViewById(R.id.textProfileAge);
         textProfileGenres = view.findViewById(R.id.textProfileGenres);
         textProfileInstruments = view.findViewById(R.id.textProfileInstruments);
@@ -208,9 +208,6 @@ public class ProfileFragment extends Fragment {
         String imageurl = null;
         String firstname = null;
         String lastname = null;
-        Integer birthday = null;
-        Integer birthmonth = null;
-        Integer birthyear = null;
         Integer age = null;
         List<String> genres = null;
         List<String> instruments = null;
@@ -234,17 +231,13 @@ public class ProfileFragment extends Fragment {
                 imageurl = uInfo.getImageUrl();
                 firstname = uInfo.getFirstName();
                 lastname = uInfo.getLastName();
-                birthday = uInfo.getBirthDay();
-                birthmonth = uInfo.getBirthMonth();
-                birthyear = uInfo.getBirthYear();
                 age = uInfo.getAge();
                 genres = uInfo.getMusicalGenres();
                 instruments = uInfo.getMusicalInstruments();
             }
         }
         //Hay que ver esta condicion, el problema fue que si un dato es null tira una excepcion al querer cambiar el valor de la vista a null
-        if (username != null && imageurl != null && firstname != null && lastname != null
-                && birthday != null && birthmonth != null && birthyear != null && age != null) {
+        if (username != null && imageurl != null && firstname != null && lastname != null && age != null) {
             String stringAge = age + " años";
             StringBuilder stringInstruments = new StringBuilder();
             StringBuilder stringGenres = new StringBuilder();
@@ -253,8 +246,6 @@ public class ProfileFragment extends Fragment {
             textProfileName.setText(firstname);
             textProfileLastName.setText(lastname);
             textProfileAge.setText(stringAge);
-            date = birthday + "/" + birthmonth + "/" + birthyear;
-            textProfileBirthDate.setText(date);
             for (String genre : genres) {
                 if (genre.equals(genres.get(0))) {
                     stringGenres = new StringBuilder(genre);

@@ -57,7 +57,7 @@
             android:layout_height="200dp"
             android:scaleType="centerInside"
             android:layout_gravity="center"
-            android:src="@drawable/ic_insert_file"
+            android:src="@drawable/uplaod_music_file"
             android:id="@+id/post_music_file"/>
 
         <EditText
@@ -65,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:hint="@string/title"
+            android:inputType="textEmailAddress"
             android:id="@+id/post_text_title" />
 
         <EditText
@@ -72,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:hint="@string/description"
+            android:inputType="textEmailAddress"
             android:id="@+id/post_text_description"/>
 
     </LinearLayout>

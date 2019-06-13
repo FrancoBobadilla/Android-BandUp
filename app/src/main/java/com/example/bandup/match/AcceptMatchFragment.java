@@ -27,24 +27,20 @@ public class AcceptMatchFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Estas a punto de postularte para esta vacante. ¿Estas seguro que deseas hacerlo?")
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String uid = FirebaseAuth.getInstance().getUid();
-                        assert uid != null;
-                        Toast.makeText(getActivity(), match + ", " + uid, Toast.LENGTH_LONG).show();
-                        DatabaseReference refPostulant = FirebaseDatabase.getInstance().getReference().child("matches").child(match.getMatchId()).child("postulants");
-                        refPostulant.child(uid).setValue("hola");
-                        FirebaseDatabase.getInstance().getReference().child("users").child(match.getPublisher()).child("messages").setValue(match.getMatchId() + uid);
-                        DatabaseReference messageToPublisher = FirebaseDatabase.getInstance().getReference().child("users").child(match.getPublisher()).child("messages").child(match.getMatchId() + uid);
-                        messageToPublisher.child("type").setValue(1);
-                        messageToPublisher.child("sender").setValue(uid);
-                        messageToPublisher.child("receiver").setValue(match.getPublisher());
-                        messageToPublisher.child("text").setValue(match.getMatchId());
-                        messageToPublisher.child("timestamp").setValue("123123");
-
-                    }
-                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setMessage("Estas a punto de postularte para esta vacante. ¿Estas seguro que deseas hacerlo?").setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String ts = Long.toString(System.currentTimeMillis());
+                String uid = FirebaseAuth.getInstance().getUid();
+                assert uid != null;
+                FirebaseDatabase.getInstance().getReference().child("matches").child(match.getMatchId()).child("postulants").child(uid).setValue(ts);
+                DatabaseReference messageToPublisher = FirebaseDatabase.getInstance().getReference().child("users").child(match.getPublisher()).child("messages").child(match.getMatchId() + uid);
+                messageToPublisher.child("type").setValue(1);
+                messageToPublisher.child("sender").setValue(uid);
+                messageToPublisher.child("receiver").setValue(match.getPublisher());
+                messageToPublisher.child("text").setValue(match.getMatchId());
+                messageToPublisher.child("timestamp").setValue(ts);
+            }
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
             }
         });

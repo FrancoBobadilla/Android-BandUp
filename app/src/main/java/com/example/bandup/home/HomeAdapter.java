@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bandup.R;
+import com.example.bandup.message.MessageViewHolder;
 import com.example.bandup.post.PostModel;
 import com.example.bandup.post.PostViewHolder;
 import com.example.bandup.userprofile.ProfileFragment;
@@ -23,8 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class HomeAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
@@ -52,9 +57,11 @@ public class HomeAdapter extends RecyclerView.Adapter<PostViewHolder> {
     public void onBindViewHolder(@NonNull final PostViewHolder viewHolder, int i) {
         final PostModel post = mPost.get(i);
         final int newActiveAudio = i;
+        Toast.makeText(mContext, post.getTimestamp(), Toast.LENGTH_SHORT).show();
         if (post.getDescription().equals("")) {
             viewHolder.postTextDescription.setVisibility(View.GONE);
         } else {
+            setTime(viewHolder, post.getTimestamp());
             viewHolder.deletePostDialogFragment.setPostId(post.getPostId());
             viewHolder.postTextDescription.setVisibility(View.VISIBLE);
             viewHolder.postTextDescription.setText(post.getDescription());
@@ -125,5 +132,23 @@ public class HomeAdapter extends RecyclerView.Adapter<PostViewHolder> {
             e.printStackTrace();
         }
     }
-
+    private void setTime(final PostViewHolder viewHolder, final String time) {
+        long ts = Long.parseLong(time);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(ts);
+        long diff = TimeUnit.MINUTES.convert(System.currentTimeMillis() - ts, TimeUnit.MILLISECONDS);
+        if (diff == 0) {
+            viewHolder.postTime.setText("Ahora");
+            return;
+        }
+        if (diff < 1440) {
+            viewHolder.postTime.setText(DateFormat.format("hh:mm", cal).toString());
+            return;
+        }
+        if (diff < 2880) {
+            viewHolder.postTime.setText("Ayer");
+            return;
+        }
+        viewHolder.postTime.setText(DateFormat.format("dd/MM/yyyy", cal).toString());
+    }
 }

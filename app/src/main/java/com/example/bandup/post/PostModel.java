@@ -8,6 +8,7 @@ public class PostModel {
     private String title;
     private String description;
     private String publisher;
+    private String timestamp;
 
     public PostModel() {
     }
@@ -50,5 +51,13 @@ public class PostModel {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

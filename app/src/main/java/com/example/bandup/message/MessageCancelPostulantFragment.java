@@ -27,7 +27,7 @@ public class MessageCancelPostulantFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("¿Deseas recahzar a " + message.getSender() + " para esta vacante?")
+        builder.setMessage("¿Deseas recahzarlo para esta vacante?")
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String uid = FirebaseAuth.getInstance().getUid();
